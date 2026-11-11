@@ -349,11 +349,14 @@ If Condila is useful for your research, consider
 [starring the repository](https://github.com/hojawn/Condila) to help others discover it.
 
 <p align="center">
-  <a href="https://www.star-history.com/?repos=hojawn%2FCondila&amp;type=date&amp;legend=top-left">
+  <a href="https://github.com/hojawn/Condila/stargazers">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=hojawn/Condila&amp;type=Date&amp;theme=dark">
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=hojawn/Condila&amp;type=Date">
-      <img alt="Condila GitHub Star History" src="https://api.star-history.com/svg?repos=hojawn/Condila&amp;type=Date" width="800">
+      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="docs/assets/star-history.svg">
+      <img alt="Condila GitHub Star History" src="docs/assets/star-history.svg" width="800">
     </picture>
   </a>
 </p>
+
+[Daily snapshots](docs/assets/star-history.json) are recorded by
+[GitHub Actions](.github/workflows/star-history.yml), starting with the first successful update.

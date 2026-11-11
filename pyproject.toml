@@ -21,7 +21,7 @@ data = ["datasets>=2.18,<4", "pyarrow>=19,<20"]
 tracking = ["wandb>=0.16"]
 mauve = ["mauve-text>=0.4", "faiss-cpu"]
 topics = ["scikit-learn>=1.0"]
-test = ["pytest>=8", "ruff>=0.11", "build>=1", "scikit-learn>=1.0"]
+test = ["pytest>=8", "ruff>=0.11", "build>=1", "scikit-learn>=1.0", "matplotlib>=3.8,<4"]
 all = [
     "lightning>=2.2,<3", "hydra-core>=1.3,<2", "datasets>=2.18,<4",
     "fsspec", "requests", "pyarrow>=19,<20", "wandb>=0.16",

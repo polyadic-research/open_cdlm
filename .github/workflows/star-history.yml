@@ -1,0 +1,47 @@
+name: Update star history
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 2 * * *"
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/star-history.yml
+      - scripts/update_star_history.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: star-history
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'hojawn/Condila'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Install chart renderer
+        run: |
+          python3 -m venv "$RUNNER_TEMP/condila-star-history"
+          "$RUNNER_TEMP/condila-star-history/bin/python" -m pip install 'matplotlib>=3.8,<4'
+
+      - name: Record and render GitHub stars
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: '"$RUNNER_TEMP/condila-star-history/bin/python" scripts/update_star_history.py --repo "$GITHUB_REPOSITORY"'
+
+      - name: Commit updated charts
+        run: |
+          git add docs/assets/star-history.json docs/assets/star-history.svg docs/assets/star-history-dark.svg
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'docs: update star history [skip ci]'
+          git push
