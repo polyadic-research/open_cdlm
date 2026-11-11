@@ -16,6 +16,12 @@
 </p>
 
 <p>
+  <a href="https://hojawn.github.io/CDLM-Bench/#findings"><strong>Project Page</strong></a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://pkulwj1994.github.io/polyadic-research/"><strong>Team Page</strong></a>
+</p>
+
+<p>
   <a href="#quickstart">Quickstart</a> &nbsp;&middot;&nbsp;
   <a href="#models-and-sampling">Models</a> &nbsp;&middot;&nbsp;
   <a href="#evaluation">Evaluation</a> &nbsp;&middot;&nbsp;
@@ -321,6 +327,18 @@ is `condila.cdlm.langflow.inference`.
 classes as `condila.dlm_metrics`.
 
 </details>
+
+## Research Team
+
+<p>
+  <a href="https://pkulwj1994.github.io/polyadic-research/">
+    <img src="docs/assets/polyadic-logo.svg" alt="Polyadic Research Group logo" width="36" height="36" align="absmiddle">
+    <strong>Polyadic Research Group</strong>
+  </a>
+</p>
+
+We study continuous diffusion language models, parallel inference and reasoning,
+and efficient machine intelligence.
 
 ## Contributing
 
