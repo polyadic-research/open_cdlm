@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.22 -1.12 3.65 2.24" role="img" aria-labelledby="title description">
+  <title id="title">Condila</title>
+  <desc id="description">A cyan-to-purple C surrounding a speech bubble, with particles flowing outward.</desc>
+  <defs>
+    <linearGradient id="outline" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#22BCD0"/>
+      <stop offset="1" stop-color="#7B4FE0"/>
+    </linearGradient>
+    <linearGradient id="bubble" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#4879ED"/>
+      <stop offset="1" stop-color="#7B4FE0"/>
+    </linearGradient>
+  </defs>
+  <!-- TikZ axes are 0.5em: lengths in em map to twice the coordinate unit. -->
+  <g transform="scale(1,-1)">
+    <path fill="url(#outline)" d="M .61 .82
+      C .18 1.17 -.54 1.08 -.91 .63
+      C -1.37 .10 -1.16 -.68 -.55 -.94
+      C -.17 -1.13 .34 -.98 .63 -.68
+      L .39 -.46
+      C .12 -.71 -.21 -.77 -.49 -.61
+      C -.95 -.38 -.98 .19 -.65 .55
+      C -.38 .88 .09 .92 .44 .67 Z"/>
+    <rect x="-.66" y="-.30" width=".94" height=".73" rx=".13" fill="url(#bubble)"/>
+    <path fill="#7B4FE0" d="M .02 -.28 L .23 -.46 L .20 -.23 Z"/>
+    <path d="M -.47 .23 H .08 M -.47 .065 H .08 M -.47 -.10 H -.12"
+      fill="none" stroke="#fff" stroke-width=".076" stroke-linecap="round"/>
+    <g fill="#7B4FE0">
+      <circle cx=".48" cy=".12" r=".066"/>
+      <circle cx=".54" cy="-.13" r=".060" opacity=".95"/>
+    </g>
+    <g fill="#4879ED">
+      <circle cx=".64" cy=".29" r=".060" opacity=".95"/>
+      <circle cx=".73" cy=".02" r=".064" opacity=".90"/>
+      <circle cx=".79" cy="-.29" r=".056" opacity=".85"/>
+      <circle cx=".95" cy=".40" r=".054" opacity=".85"/>
+      <circle cx="1.01" cy="-.10" r=".060" opacity=".85"/>
+      <circle cx="1.20" cy="-.48" r=".054" opacity=".75"/>
+    </g>
+    <g fill="#22BCD0">
+      <circle cx="1.08" cy=".68" r=".046" opacity=".70"/>
+      <circle cx="1.30" cy=".17" r=".052" opacity=".80"/>
+      <circle cx="1.47" cy=".47" r=".048" opacity=".75"/>
+      <circle cx="1.50" cy="-.24" r=".050" opacity=".75"/>
+      <circle cx="1.70" cy=".88" r=".042" opacity=".55"/>
+      <circle cx="1.84" cy=".08" r=".050" opacity=".65"/>
+      <circle cx="1.91" cy="-.70" r=".044" opacity=".55"/>
+      <circle cx="2.16" cy=".50" r=".040" opacity=".50"/>
+      <circle cx="2.29" cy="-.24" r=".042" opacity=".50"/>
+      <circle cx="1.54" cy="-.92" r=".040" opacity=".45"/>
+    </g>
+  </g>
+</svg>

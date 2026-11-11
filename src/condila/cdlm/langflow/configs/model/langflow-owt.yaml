@@ -1,0 +1,33 @@
+# LangFlow model config for OpenWebText (OWT)
+# Trained with GPT-2 tokenizer (vocab_size=50257), context length 1024
+#
+# Architecture: DiT-style Transformer
+# - 12 layers, hidden 768, 12 heads (~130M params)
+# - Rotary positional encoding
+# - Self-conditioning enabled
+# - Learnable Gumbel noise schedule
+
+
+vocab_size: 50257             # GPT-2 tokenizer
+hidden_size: 768
+cond_dim: 128
+n_blocks: 12
+n_heads: 12
+dropout: 0.1
+length: 1024                  # Context length
+
+# Embedding
+use_normalized_embedding: true
+embedding_norm_method: layernorm
+
+# Self-conditioning
+self_conditioning: true
+
+# Bias (preconditioning skip connection)
+use_bias: true
+
+# Gumbel proposal initial parameters
+gumbel_loc: 4.723
+gumbel_scale: 0.852
+gumbel_cutoff: 1e-5
+gumbel_entropy: 7.02          # H_∞ (initial posterior entropy at pure noise)

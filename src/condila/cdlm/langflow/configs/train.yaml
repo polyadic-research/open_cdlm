@@ -1,0 +1,99 @@
+# LangFlow training configuration
+# Usage: condila-langflow-train [overrides...]
+#
+# Examples:
+#   condila-langflow-train model=langflow-owt
+#   condila-langflow-train model=langflow-lm1b data=lm1b
+
+defaults:
+  - _self_
+  - model: langflow-owt
+  - data: openwebtext
+
+# ------------------------------------------------------------------
+# Continue training from a checkpoint
+# ------------------------------------------------------------------
+# init_from: weights-only WARM-START (fresh optimizer / LR schedule / step 0).
+#   Use this for the official HuggingFace checkpoint, e.g.
+#     init_from=./checkpoints/model.safetensors
+#   When continuing from a fully-trained model also pass
+#     training.bias_warmup_steps=0
+#   so the preconditioning bias isn't disabled again at the start.
+init_from: null
+# resume: full-state RESUME of a Lightning .ckpt (weights + optimizer + LR
+#   scheduler + global_step + EMA). To train beyond the saved step, also raise
+#   training.total_steps, e.g.
+#     resume=./checkpoints/last.ckpt
+resume: null
+
+# ------------------------------------------------------------------
+# Training hyperparameters
+# ------------------------------------------------------------------
+training:
+  seed: 42
+
+  # Optimization
+  learning_rate: 3e-4
+  weight_decay: 0.01
+  beta1: 0.9
+  beta2: 0.999
+  max_grad_norm: 1.0
+
+  # Steps
+  total_steps: 1_000_000        # 1M steps (paper default)
+  warmup_steps: 5_000           # Linear LR warmup
+
+  # Bias warmup: disable the preconditioning skip connection
+  # for the first N steps to let the backbone learn first
+  bias_warmup_steps: 5_000
+
+  # Self-conditioning
+  self_cond_prob: 0.25          # Probability of enabling SC during training
+
+  # Scheduler loss
+  scheduler_loss_weight: 1.0    # Weight for the Gumbel scheduler fitting loss
+
+
+  # EMA (Exponential Moving Average)
+  use_ema: true
+  ema_decay: 0.9999
+
+  # Validation
+  val_check_interval: 2000      # Run validation every N training steps
+
+  # Logging
+  log_every_n_steps: 10
+  log_dir: ./logs
+  checkpoint_dir: ./checkpoints/exp_FTCDLM_${now:%Y%m%d_%H%M%S}/${data.train}
+
+  # Checkpointing
+  save_every_steps: 10000       # Save checkpoint every N steps
+  save_top_k: 5                 # Keep top-k checkpoints by val/ppl
+
+  # Output
+  save_safetensors: true        # Also save as safetensors after training
+
+  # Wandb (optional)
+  use_wandb: false
+  wandb_project: langflow-training_obj
+  wandb_run_name: finetune-ori
+
+# ------------------------------------------------------------------
+# Data loading (per-device)
+# ------------------------------------------------------------------
+loader:
+  batch_size: 128               # Per-GPU batch size
+  eval_batch_size: 128          # Per-GPU eval batch size
+  num_workers: 16
+  pin_memory: true
+
+# ------------------------------------------------------------------
+# Lightning Trainer settings
+# ------------------------------------------------------------------
+trainer:
+  devices: auto                 # "auto" = all available GPUs
+  num_nodes: 1
+  accelerator: auto
+  precision: bf16-mixed         # bf16-mixed for Ampere+ GPUs
+  strategy: ddp_find_unused_parameters_true
+  accumulate_grad_batches: 1    # Set >1 if batch_size * num_gpus < 512

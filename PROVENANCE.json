@@ -1,0 +1,599 @@
+{
+  "snapshot_date": "2026-11-12",
+  "sources": [
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/stats.py",
+      "destination": "src/condila/dlm_metrics/stats.py",
+      "source_sha256": "eee1d1e1bdd37fb2e6bd63269e4422be46a8f44734fceb603979dee67cfb59c3",
+      "packaged_sha256": "eee1d1e1bdd37fb2e6bd63269e4422be46a8f44734fceb603979dee67cfb59c3"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/cli.py",
+      "destination": "src/condila/dlm_metrics/cli.py",
+      "source_sha256": "5105740ddaa7a2bb9ddc457c45896c27e652ddd4d832aea50e3f310c25669276",
+      "packaged_sha256": "f809bbe590db0fd304ef90ae71b683bbdebceea0afa6137fd6221810213605a0"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/suite.py",
+      "destination": "src/condila/dlm_metrics/suite.py",
+      "source_sha256": "fac8edae60e07bf0b94092d6c9a262655e1c77f51df57881b146a7c5f3b531cc",
+      "packaged_sha256": "fac8edae60e07bf0b94092d6c9a262655e1c77f51df57881b146a7c5f3b531cc"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/models.py",
+      "destination": "src/condila/dlm_metrics/models.py",
+      "source_sha256": "4c87fe0fad6d2181ee78e5551002334e413218aae06de6431a84d6d64def0238",
+      "packaged_sha256": "4c87fe0fad6d2181ee78e5551002334e413218aae06de6431a84d6d64def0238"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/__init__.py",
+      "destination": "src/condila/dlm_metrics/__init__.py",
+      "source_sha256": "2cd5e1c41d87434442bd624b7485feb96d16dcc75f58381a30811aeb4ba1ddbf",
+      "packaged_sha256": "073fd2ef01e957d81bdae25b3f69d4159a46e5e87a4e20a0d70da35f9dda2612"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/inputs.py",
+      "destination": "src/condila/dlm_metrics/inputs.py",
+      "source_sha256": "03b7cb7ff8d03ef580be123b7283dddb47badf386bad0170425e386290ae0c8f",
+      "packaged_sha256": "03b7cb7ff8d03ef580be123b7283dddb47badf386bad0170425e386290ae0c8f"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/base.py",
+      "destination": "src/condila/dlm_metrics/base.py",
+      "source_sha256": "f9aee61b456c727658c50e920a9abc37d920a29bf87a69fa9f1eeb43e74a6eb3",
+      "packaged_sha256": "39418bb1944ade7312a1a232707cffb00957f8374282bff197443b51dba77fb6"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/features.py",
+      "destination": "src/condila/dlm_metrics/features.py",
+      "source_sha256": "696c27f9bc06b95c2093215705a87403a6a6a89ebe222f7bdb4377e2cfe0c91a",
+      "packaged_sha256": "2b1acd5b6e411bccf1547b08f4f966496d8e1bc0026fad594bbfa1bec39fc39e"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/gen_ppl.py",
+      "destination": "src/condila/dlm_metrics/functional/gen_ppl.py",
+      "source_sha256": "359ead9278318a8a0972251dc7e288a5b335e6c34ad7692fd1ea8229cb13483a",
+      "packaged_sha256": "359ead9278318a8a0972251dc7e288a5b335e6c34ad7692fd1ea8229cb13483a"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/entropy.py",
+      "destination": "src/condila/dlm_metrics/functional/entropy.py",
+      "source_sha256": "8eb5678f4b21c015a2d59fbaf1f54800335a98f95d60e74a386013ea26060a0e",
+      "packaged_sha256": "8eb5678f4b21c015a2d59fbaf1f54800335a98f95d60e74a386013ea26060a0e"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/topics.py",
+      "destination": "src/condila/dlm_metrics/functional/topics.py",
+      "source_sha256": "96897ea9315b3aae8869d3e6d432a66258ef9084be03ec07dfb40a2b64ddd8d7",
+      "packaged_sha256": "96897ea9315b3aae8869d3e6d432a66258ef9084be03ec07dfb40a2b64ddd8d7"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/kernel.py",
+      "destination": "src/condila/dlm_metrics/functional/kernel.py",
+      "source_sha256": "c73fc913e8d1a90eca2415e47c20be3771cb4420c6670a0a7d8df5949bcfdad2",
+      "packaged_sha256": "c73fc913e8d1a90eca2415e47c20be3771cb4420c6670a0a7d8df5949bcfdad2"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/mauve.py",
+      "destination": "src/condila/dlm_metrics/functional/mauve.py",
+      "source_sha256": "375ebff3207c131e7e9db5ede0500d9b73e4431162165fe25f70c14af18c2d43",
+      "packaged_sha256": "375ebff3207c131e7e9db5ede0500d9b73e4431162165fe25f70c14af18c2d43"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/__init__.py",
+      "destination": "src/condila/dlm_metrics/functional/__init__.py",
+      "source_sha256": "12d18364fb5244585558d4062a8c5d4e103d425f2383a595e6cfd1edc201d8c8",
+      "packaged_sha256": "12d18364fb5244585558d4062a8c5d4e103d425f2383a595e6cfd1edc201d8c8"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/kn.py",
+      "destination": "src/condila/dlm_metrics/functional/kn.py",
+      "source_sha256": "484eec44800f1d0ebe68dc5c885ca1be2b7f03f5b42309baa993d9126fca5dd3",
+      "packaged_sha256": "484eec44800f1d0ebe68dc5c885ca1be2b7f03f5b42309baa993d9126fca5dd3"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/attributes.py",
+      "destination": "src/condila/dlm_metrics/functional/attributes.py",
+      "source_sha256": "b807e670aaedf5ce052eb61b946b6f02c2b6d96d1b5d4ce25348a6205e9a824f",
+      "packaged_sha256": "b807e670aaedf5ce052eb61b946b6f02c2b6d96d1b5d4ce25348a6205e9a824f"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/functional/ngram.py",
+      "destination": "src/condila/dlm_metrics/functional/ngram.py",
+      "source_sha256": "ed2dd315cf322f896296504bc8bf61a80203a6d82df2c76004c51aa28845a611",
+      "packaged_sha256": "ed2dd315cf322f896296504bc8bf61a80203a6d82df2c76004c51aa28845a611"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/gen_ppl.py",
+      "destination": "src/condila/dlm_metrics/metrics/gen_ppl.py",
+      "source_sha256": "373c8eabf9c3bfc661a5fd2f513d4e0abfb73775bcc03477c81febcfa08252c1",
+      "packaged_sha256": "74e94d8b0fc9608267e1d156b6dd283bebd4f66598b7edde1ae5495883d0f394"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/mauve.py",
+      "destination": "src/condila/dlm_metrics/metrics/mauve.py",
+      "source_sha256": "3a8eccf1325091bc16f7f68cca50644c1a7fddd94beb07309a9c6dcdfd6e7fbd",
+      "packaged_sha256": "3a8eccf1325091bc16f7f68cca50644c1a7fddd94beb07309a9c6dcdfd6e7fbd"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/__init__.py",
+      "destination": "src/condila/dlm_metrics/metrics/__init__.py",
+      "source_sha256": "9e0b67b1cdf62050c83ddc422d8e716280eedfd3dc9f39cf5dc8ba6dd819ca5a",
+      "packaged_sha256": "9e0b67b1cdf62050c83ddc422d8e716280eedfd3dc9f39cf5dc8ba6dd819ca5a"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/text.py",
+      "destination": "src/condila/dlm_metrics/metrics/text.py",
+      "source_sha256": "b16fb607c2afff02068a9fdf171260de1c533f5491a3b8c862a89aaa958acc4e",
+      "packaged_sha256": "b16fb607c2afff02068a9fdf171260de1c533f5491a3b8c862a89aaa958acc4e"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/feature.py",
+      "destination": "src/condila/dlm_metrics/metrics/feature.py",
+      "source_sha256": "7bbe634b5495ef73bb685052c8cc13e221df73760b95970c5ffecdab0cae6269",
+      "packaged_sha256": "7bbe634b5495ef73bb685052c8cc13e221df73760b95970c5ffecdab0cae6269"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/metrics/diagnostics.py",
+      "destination": "src/condila/dlm_metrics/metrics/diagnostics.py",
+      "source_sha256": "f4054c79b49ea6379e9682dc3409bda9b4f2eca24da57861bd32098fd5bd1f73",
+      "packaged_sha256": "f4054c79b49ea6379e9682dc3409bda9b4f2eca24da57861bd32098fd5bd1f73"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/likelihood/metric.py",
+      "destination": "src/condila/dlm_metrics/likelihood/metric.py",
+      "source_sha256": "3d9f37768b670c107deab6a207ef006de8414b08c948ed924ed4e5598581b02b",
+      "packaged_sha256": "7ef59fdbd52529b4c5adcda4f86ce30346e5aef4116550f89f54f5fc41bee5b7"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/likelihood/adapters.py",
+      "destination": "src/condila/dlm_metrics/likelihood/adapters.py",
+      "source_sha256": "32cf417b938b5f15d8af75bef1b18aca46fa302041fe0d0f0ab02977c98426d4",
+      "packaged_sha256": "feb0aad42b66684f02c69abd1bc33728c73399c84fdbc4adb99d3b9d59ab5b25"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/likelihood/__init__.py",
+      "destination": "src/condila/dlm_metrics/likelihood/__init__.py",
+      "source_sha256": "749560f5c336dc6d82a441bc14aed7ae9d1712c5ddc949195fc8c143985b19e0",
+      "packaged_sha256": "0e4b288d54f4308a65a3b6436073973c7414cd129fcf04c6dd6d6789e3e9e172"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/likelihood/toy.py",
+      "destination": "src/condila/dlm_metrics/likelihood/toy.py",
+      "source_sha256": "76f655d57ead60b6bea9ca4924393e948f93bd0e077d90cef04f5492ce28d184",
+      "packaged_sha256": "76f655d57ead60b6bea9ca4924393e948f93bd0e077d90cef04f5492ce28d184"
+    },
+    {
+      "source": "CDLM_Benchmarks/dlm_metrics/likelihood/continuous.py",
+      "destination": "src/condila/dlm_metrics/likelihood/continuous.py",
+      "source_sha256": "91cfe0772001056c3a5de03712bf63d27556e737fbae7d42c66a02d900dec0af",
+      "packaged_sha256": "91cfe0772001056c3a5de03712bf63d27556e737fbae7d42c66a02d900dec0af"
+    },
+    {
+      "source": "CDLM_Benchmarks/LICENSE",
+      "destination": "LICENSE",
+      "source_sha256": "cfe78d1b545daf843c0930a9177ab228640d4bfe0c7f8b40031d54b73febad4c",
+      "packaged_sha256": "cfe78d1b545daf843c0930a9177ab228640d4bfe0c7f8b40031d54b73febad4c"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_hf_models.py",
+      "destination": "tests/metrics/test_hf_models.py",
+      "source_sha256": "441dfdebdc89b568bc59f5f14e5efb641ccb7dbc1505e9620385d817e151a231",
+      "packaged_sha256": "bc4384e13f4c5c4314cd0c505f8eedbe078dd71e81f49c5ae7331bb52b459f0e"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_api.py",
+      "destination": "tests/metrics/test_api.py",
+      "source_sha256": "eea62efadda4a9ff74dc2862caa402f319859e38978172f818dc08d7719e1865",
+      "packaged_sha256": "95236941899025bf3f8937530008963e8820e486d3411474e2bdcb407f35c22d"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/conftest.py",
+      "destination": "tests/metrics/conftest.py",
+      "source_sha256": "971418531ca91aafde3b561d3dbbe7a652967e9d3f12032c65741e05c1f5312e",
+      "packaged_sha256": "44031dd802535d1cb00d627ba0a0a228eb6c88baf35b50bdaba3c041f8b45d3d"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_likelihood_toy.py",
+      "destination": "tests/metrics/test_likelihood_toy.py",
+      "source_sha256": "206dfab223ab395e9e858044d2a6f03d1110a24e18fa224e717c19fef0c4b85e",
+      "packaged_sha256": "f0ca13f258ad25d1d4e21b151b50c563d66d540ae5e96329b57ce19fe123f47d"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_ngram.py",
+      "destination": "tests/metrics/test_ngram.py",
+      "source_sha256": "ee906cf13c53501ff3e32fcc79e4902d69cbc62a59bb94ec1f8aa9abdfbba6e4",
+      "packaged_sha256": "e2b0689fb7d04197788263f7186ec8fe691b9d08db8280a82923dd281bcf6914"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_entropy.py",
+      "destination": "tests/metrics/test_entropy.py",
+      "source_sha256": "5e90c4355b3e2294491f1e8a7a9dee9bad02e90717d4b46d505acd14d1ae4f48",
+      "packaged_sha256": "b2eab1560b42b2e044a360dd31d4941792026133a87b882626b05cb96964d22e"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_kernel.py",
+      "destination": "tests/metrics/test_kernel.py",
+      "source_sha256": "959695de12197795b7caf9f0a48dbac2f54c114e7aa9671d9bf6f453b3edc753",
+      "packaged_sha256": "e768a8f00d646c724acab7333ec26e8ff86f59e7a6fbb1ae447aefcbd70a5dda"
+    },
+    {
+      "source": "CDLM_Benchmarks/tests/test_likelihood_references.py",
+      "destination": "tests/metrics/test_likelihood_references.py",
+      "source_sha256": "023f77b05689ed5e63f7765bfdbcd181d9036d06459b7aadf87a4bb6c20d3dd8",
+      "packaged_sha256": "97bd9faaf638bdd093bb577d275638e5c321d80bd51b106f16652794c8a80bf9"
+    },
+    {
+      "source": "CDLM_Benchmarks/examples/modular_metrics.py",
+      "destination": "examples/metrics/modular_metrics.py",
+      "source_sha256": "2fbc6dc13452b6b38700b63da0cdbe0486afc6eb6ba7ea138c207d531067a9e7",
+      "packaged_sha256": "8a7a2b2935577fb67508063c229f8bbbf7d5bb6ec95bd37c79bea6549afb9825"
+    },
+    {
+      "source": "CDLM_Benchmarks/examples/quickstart.py",
+      "destination": "examples/metrics/quickstart.py",
+      "source_sha256": "1b6a213af99275d9eaacf9829924e3a92da8d8e12362e55e2b414b2624fd7ea7",
+      "packaged_sha256": "94994e0a540eef3ec45758786b26b380daf8c03d647c012b626492bc19bfab8b"
+    },
+    {
+      "source": "LangFlow_reproduction/langflow/model.py",
+      "destination": "src/condila/cdlm/langflow/model.py",
+      "source_sha256": "2353ab104f596a8b89991c993c429c9da411ee76099a02e7b335e7f30936f834",
+      "packaged_sha256": "7e5a192a492645822d9da83c05376f898759f43e8d4f6da235fb60e5c08eb8f0"
+    },
+    {
+      "source": "LangFlow_reproduction/langflow/config.py",
+      "destination": "src/condila/cdlm/langflow/config.py",
+      "source_sha256": "48f05e9a273aeea0716fe8f24792a2a2f01645fb01677724e9d27eaf6ba3f20b",
+      "packaged_sha256": "8dc0c966770e18b6d64baf58ae7d4dfb131f6935404990be8016a31cbb4f04bb"
+    },
+    {
+      "source": "LangFlow_reproduction/langflow/train.py",
+      "destination": "src/condila/cdlm/langflow/train.py",
+      "source_sha256": "7f2ba3fb1b14746d5fdcdd7f141ed405190f814df7b50e7cb74c5ba819758305",
+      "packaged_sha256": "4b5d94977892c7bc571442a308470f1ea405b55122f4206db8e01f659986e468"
+    },
+    {
+      "source": "LangFlow_reproduction/langflow/data.py",
+      "destination": "src/condila/cdlm/langflow/data.py",
+      "source_sha256": "113b740586e63802c9441806830642b030990a8b9c2cfcaabae9e380714ccef2",
+      "packaged_sha256": "4e02107a8c89a6fc5584faf6bc996bb16c38ff36b4424485572775478940cc1c"
+    },
+    {
+      "source": "LangFlow_reproduction/duo/dataloader.py",
+      "destination": "src/condila/cdlm/langflow/_data/dataloader.py",
+      "source_sha256": "acbfc89f3caf9fec5af866623b9668f7be82e23f3a31b2424fdd172c6d7ae7c9",
+      "packaged_sha256": "4994cd68e295dfe3d015698faeef08dbe03f1e8465be99c83ac889389a34bfb2"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/train.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/train.yaml",
+      "source_sha256": "9ea6bdd157f4a6f962434f63ee9b33ef5ec5075749a7ce699e86a581864dd338",
+      "packaged_sha256": "bb09d7e649911f28cd2b613b4b5a53eafbacc4127099fcc38e66cd660868211a"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/model/langflow-lm1b.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/model/langflow-lm1b.yaml",
+      "source_sha256": "dd3e83d98ab2add26593bca2e87d15ff28019ed2400d40b5459a0294b40b3183",
+      "packaged_sha256": "dd3e83d98ab2add26593bca2e87d15ff28019ed2400d40b5459a0294b40b3183"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/model/langflow-owt.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/model/langflow-owt.yaml",
+      "source_sha256": "64f1958836e36cdd1aad07dc013c80c99deccaf8bc8b375d3451dfb2dd3ebbe8",
+      "packaged_sha256": "64f1958836e36cdd1aad07dc013c80c99deccaf8bc8b375d3451dfb2dd3ebbe8"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/text8-crop.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/text8-crop.yaml",
+      "source_sha256": "81fa80e890a78147fbd540d81de49404e558815361a832a057eda4c6f5531886",
+      "packaged_sha256": "e66639f42bdf13855f2e48968dda7ebc632ff02ba0dfc9b61e360d5186b9e82f"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/scientific_papers_arxiv.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/scientific_papers_arxiv.yaml",
+      "source_sha256": "9bfae6e02a46571be71e494458dea4fc2779a57fe8c684d93f4b576f30085543",
+      "packaged_sha256": "c03e44070bbfc105742eef7a27e0130099857b538c10e4e6f77e33aa3bd3b1ed"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/lm1b-wrap.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/lm1b-wrap.yaml",
+      "source_sha256": "97172a17fd87cc52bb1194c0771aa229d05afc7f64b7b523d76faad288f10499",
+      "packaged_sha256": "dcbfb0b1a08568855d1f9c6e206c5d8485645602ccbbf6d4087f295c8f75980f"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/lm1b-streaming.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/lm1b-streaming.yaml",
+      "source_sha256": "d506461f38549b929d2fa80299c6e51f6841acbe8b5500662436537efa58ff36",
+      "packaged_sha256": "7a863a336e8b0ad65d8b97b1b1b31a3b675c7668204b05b5b5881f8980f84d9d"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/lm1b-gpt2.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/lm1b-gpt2.yaml",
+      "source_sha256": "683083fe384a55cdb4fc9a460ee1151625c156666cf7983e9d7da28cf1c04cba",
+      "packaged_sha256": "3a457088ba973c4425e10e244712abbf851941562edd8ed14b4d728348d99f00"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/openwebtext-streaming.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/openwebtext-streaming.yaml",
+      "source_sha256": "0a7c79faa3d91e50db0b1c186e5215b4bd682ccd31e8ef48f3606bbb8e153520",
+      "packaged_sha256": "0a7c79faa3d91e50db0b1c186e5215b4bd682ccd31e8ef48f3606bbb8e153520"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/fineweb-edu.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/fineweb-edu.yaml",
+      "source_sha256": "e6f0597574f6f15cff145a341b3f1d3430b296899d2ef00c3e7ca81d0dbfd8ac",
+      "packaged_sha256": "a3d003a8aa56d5a2eb02529ac3db71d7a4518f93c25eaf1031fea93376d1ee82"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/openwebtext.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/openwebtext.yaml",
+      "source_sha256": "8f0f995a098c510ec7f6dd7fa0497d4de5f7eb866ce134f8d81a6f284dd2f3f7",
+      "packaged_sha256": "9e3b264117af45df9577967bcfddaf813a781165f15fe26f828eb8d145a94de0"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/openwebtext-split.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/openwebtext-split.yaml",
+      "source_sha256": "9012884e6652ec02eed63a36520db3a19569bda23ea18169ef56994d740342df",
+      "packaged_sha256": "de4144c192cf40d5b15d99726458e9cdee4abcc06828aaa3c8f3d02663d1f959"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/lm1b.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/lm1b.yaml",
+      "source_sha256": "c62915a15308423b5f150729442b20a6b22d6430a521ef97752314d5b4d85e37",
+      "packaged_sha256": "c81d8ebd6729d58061c46a70fc14c8d4d53f3854a9d1c58d219bee1f0a5508e2"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/ptb.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/ptb.yaml",
+      "source_sha256": "372a8b9422f34d8473590fad5dcb3af542809bfe41b4c0a6ac4bf62a0e3e68ee",
+      "packaged_sha256": "07ea459d1611c95cc2ca4bcf232320aa3bfecc8dfe72f2feb198dbd3317680ef"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/wikitext2.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/wikitext2.yaml",
+      "source_sha256": "c21964a3a8611fc197fdba994d4e8a05b3895be4acbc90e49d689b102d37ac13",
+      "packaged_sha256": "f69d9f340b0aa64348c6c770ce07e7380fc94276fd49cdfc045a3e62fb76e824"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/wikitext103.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/wikitext103.yaml",
+      "source_sha256": "25a16cbe5f4144c42035364f6a3ab2c1ba976fd2bf8a1a1e324d6a40bce429c7",
+      "packaged_sha256": "8bf86372b64ca53ddde348aeec3dfb1db977f2f48c2486f50262a6819a5e83fc"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/synthetic.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/synthetic.yaml",
+      "source_sha256": "ccb2928995d0f17c4ccb6817c339ce8221f33c423cc83d01e9c10552b404dd43",
+      "packaged_sha256": "e336e8a6a204cf59ec281bd156d917bfa64608ca5eeb5ea56faf55880efd470c"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/text8.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/text8.yaml",
+      "source_sha256": "4ff3c8e3fb82ddcf1e4da82b129a5e6086c18fa564eeef7a36e22bf7f0514fc8",
+      "packaged_sha256": "10e0d0febd37637fdc74b6d25e0a51f1b0349575d3037618b6231af991d61682"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/ag_news.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/ag_news.yaml",
+      "source_sha256": "09913af866df8d7de3006ee33b0e3190b497af69c234069b6d5853175a3e7c30",
+      "packaged_sha256": "f6b9a74f690b1d337eca09b6c5407aa7ed5d480e7f18b55f661406ec39c5792e"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/lambada.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/lambada.yaml",
+      "source_sha256": "7763749fd0a108e3ac605924a1bc02661f9504b07036f020825532a30fe0a7ee",
+      "packaged_sha256": "56e28c24962231ac123c816952be4a6d9016870bd79a26ba339ccb821a762aff"
+    },
+    {
+      "source": "LangFlow_reproduction/configs/data/scientific_papers_pubmed.yaml",
+      "destination": "src/condila/cdlm/langflow/configs/data/scientific_papers_pubmed.yaml",
+      "source_sha256": "8caa1bb8d6ddd65d6c22c0432fb66e32aa3a47f45c4b887c596a8e3b09b1dec7",
+      "packaged_sha256": "2f0f94a57ab97b8aa0bc04c4db77eb279d765930b63b1a0a2bc4fab4a1bd1386"
+    },
+    {
+      "source": "LangFlow_reproduction/tests/test_rotary.py",
+      "destination": "tests/langflow/test_rotary.py",
+      "source_sha256": "7653d917bc62b45755e82e97f097607867e6a50264ac1544b54c6f7a04ab3e9d",
+      "packaged_sha256": "b630f404db4a0002b7fe0c5a2cf83b2206137592a5eb5996c0c3f0a6e3914e5d"
+    },
+    {
+      "source": "LangFlow_reproduction/tests/test_training.py",
+      "destination": "tests/langflow/test_training.py",
+      "source_sha256": "52c6b557e31109811654633e5c8a47f7dc1e6a9c90e35e7123e785a42da3d949",
+      "packaged_sha256": "1cebf25b8568b6a95092d985ff6c5fca879aee7b77ff360c8814b322ce2dc7bd"
+    },
+    {
+      "source": "LangFlow_reproduction/tests/test_entrypoints.py",
+      "destination": "tests/langflow/test_data.py",
+      "source_sha256": "9d47ea35faee3f1df888995ef37360b535067064cce8046be00f369144deaac3",
+      "packaged_sha256": "79ee7b83cb6b7ec23a23e3a330a3eb9a7486deeff4d087e52b6f5fdf1ad1f25a"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/model.py",
+      "destination": "src/condila/cdlm/replaid/model.py",
+      "source_sha256": "efee0f9ee7829322d12c6b46b650f382d62b5fac4c5cfcc6992cba7fdce36897",
+      "packaged_sha256": "efee0f9ee7829322d12c6b46b650f382d62b5fac4c5cfcc6992cba7fdce36897"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/data.py",
+      "destination": "src/condila/cdlm/replaid/data.py",
+      "source_sha256": "831523c5210d933f2b4881dbfa265375cf553e3e020b371646e598642f5a0704",
+      "packaged_sha256": "831523c5210d933f2b4881dbfa265375cf553e3e020b371646e598642f5a0704"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/prepare.py",
+      "destination": "src/condila/cdlm/replaid/prepare.py",
+      "source_sha256": "7d09cd3e64a213805ecd6ed2b4d74d4613fff2d583615779eb903c46a2ca1c70",
+      "packaged_sha256": "7d09cd3e64a213805ecd6ed2b4d74d4613fff2d583615779eb903c46a2ca1c70"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/__init__.py",
+      "destination": "src/condila/cdlm/replaid/__init__.py",
+      "source_sha256": "b2ceadcb9a7aba63465205a532071f7550886e0a913be5751cbb7347167a7992",
+      "packaged_sha256": "e69e439a7dac4f3f3ed2edfb1e75503cc74d98eba633a39a585d888e9194e86c"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/checkpoint.py",
+      "destination": "src/condila/cdlm/replaid/checkpoint.py",
+      "source_sha256": "7d62b8fa67148f71726013b0c83942f01b3247e08a4ab487a4a8cb35f3d5028f",
+      "packaged_sha256": "7d62b8fa67148f71726013b0c83942f01b3247e08a4ab487a4a8cb35f3d5028f"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/optim.py",
+      "destination": "src/condila/cdlm/replaid/optim.py",
+      "source_sha256": "df6f1d4122ab3764d5360187a3bc32237dbe163e0e4eb325c9693d563701ccf8",
+      "packaged_sha256": "df6f1d4122ab3764d5360187a3bc32237dbe163e0e4eb325c9693d563701ccf8"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/evaluate.py",
+      "destination": "src/condila/cdlm/replaid/evaluate.py",
+      "source_sha256": "9f039d0f50a3ebb1ca4bf916d2f3162fe77f29e7ee6f81fa88c76852a098091b",
+      "packaged_sha256": "9f039d0f50a3ebb1ca4bf916d2f3162fe77f29e7ee6f81fa88c76852a098091b"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/score.py",
+      "destination": "src/condila/cdlm/replaid/score.py",
+      "source_sha256": "009fc53ab0e859d6e46b63cc5817a858315256809efc448a398a24c600a3471c",
+      "packaged_sha256": "009fc53ab0e859d6e46b63cc5817a858315256809efc448a398a24c600a3471c"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/layers.py",
+      "destination": "src/condila/cdlm/replaid/layers.py",
+      "source_sha256": "2d83f1942265e7254f80c77b3f84b8f8920b20ecb482455a18cda23bbcc9e111",
+      "packaged_sha256": "2d83f1942265e7254f80c77b3f84b8f8920b20ecb482455a18cda23bbcc9e111"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/objective.py",
+      "destination": "src/condila/cdlm/replaid/objective.py",
+      "source_sha256": "5f5e606409515c1337b178b57dc92269a714173a2fe98f1927db7af8ae6792da",
+      "packaged_sha256": "5f5e606409515c1337b178b57dc92269a714173a2fe98f1927db7af8ae6792da"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/train.py",
+      "destination": "src/condila/cdlm/replaid/train.py",
+      "source_sha256": "3ed8ab8baa938ae9b403f3288833a3926a79910bcf2e5f93e72c8d016dbcf2fd",
+      "packaged_sha256": "000ea641b93ad8dd32bc6651c185fc56b487135b7fbc13941ca095f2d1602594"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/config.py",
+      "destination": "src/condila/cdlm/replaid/config.py",
+      "source_sha256": "d82c61709fcca90b6f0437f24d0e61bb902efca49338071f76247cf726a34fd8",
+      "packaged_sha256": "d82c61709fcca90b6f0437f24d0e61bb902efca49338071f76247cf726a34fd8"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/reference.py",
+      "destination": "src/condila/cdlm/replaid/reference.py",
+      "source_sha256": "ca7919380d0de6fb92de84a6a9a461935e53fb31fc86e3e7714ab724eea1d048",
+      "packaged_sha256": "ca7919380d0de6fb92de84a6a9a461935e53fb31fc86e3e7714ab724eea1d048"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/distributed.py",
+      "destination": "src/condila/cdlm/replaid/distributed.py",
+      "source_sha256": "6bb949a4564d8932e7f5955580122bd3e6973846d27a9d3f6a3540316b41589f",
+      "packaged_sha256": "6bb949a4564d8932e7f5955580122bd3e6973846d27a9d3f6a3540316b41589f"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/metrics.py",
+      "destination": "src/condila/cdlm/replaid/metrics.py",
+      "source_sha256": "4e90a1b8ec3491b0b94ddb42692052019b0046c82eb2650c2be1ae9f154002fb",
+      "packaged_sha256": "4e90a1b8ec3491b0b94ddb42692052019b0046c82eb2650c2be1ae9f154002fb"
+    },
+    {
+      "source": "replaid_original/src/replaid_original/sample.py",
+      "destination": "src/condila/cdlm/replaid/sample.py",
+      "source_sha256": "f00ed8042d36049043b5409050606a25ebc1d6191dd936c01d0a14efeef0b3c5",
+      "packaged_sha256": "f00ed8042d36049043b5409050606a25ebc1d6191dd936c01d0a14efeef0b3c5"
+    },
+    {
+      "source": "replaid_original/configs/owt_sc.yaml",
+      "destination": "src/condila/cdlm/replaid/configs/owt_sc.yaml",
+      "source_sha256": "de98170f51bc0767981bfcec75f8f4919e1d169197308987f34e63c3f2205d28",
+      "packaged_sha256": "de98170f51bc0767981bfcec75f8f4919e1d169197308987f34e63c3f2205d28"
+    },
+    {
+      "source": "replaid_original/configs/owt_no_sc.yaml",
+      "destination": "src/condila/cdlm/replaid/configs/owt_no_sc.yaml",
+      "source_sha256": "d114eefae627a4ea15626ae3f1af4b50d7227f9a1d56414e1cded252d9e35bff",
+      "packaged_sha256": "d114eefae627a4ea15626ae3f1af4b50d7227f9a1d56414e1cded252d9e35bff"
+    },
+    {
+      "source": "replaid_original/tests/test_data_and_cli.py",
+      "destination": "tests/replaid/test_data_and_cli.py",
+      "source_sha256": "83211b479f8acb014aa9061fc802d4138416f7c05e498682c483da56ecddd368",
+      "packaged_sha256": "889f102628a2f081e72275fcec12bfab87a31778731733347ffb92e5c58e9b1a"
+    },
+    {
+      "source": "replaid_original/tests/conftest.py",
+      "destination": "tests/replaid/conftest.py",
+      "source_sha256": "ceacefae1cca2087e5a40d354f95e4d80f93a530caab38fbc9d07323d414a483",
+      "packaged_sha256": "99382d3fc28a46d6bc2945644a9cf1b2c370d17f21a4bbe41f0249d787dffd66"
+    },
+    {
+      "source": "replaid_original/tests/test_quality.py",
+      "destination": "tests/replaid/test_quality.py",
+      "source_sha256": "c89919da63633a08abba31ad784ee0f291ba941173a8cf936bda14642e53323c",
+      "packaged_sha256": "2cb5a6b47eedd6ca2c2556b9fbe0e2c83d91e4e0edcb817caa687e7fd217b3bc"
+    },
+    {
+      "source": "replaid_original/tests/test_model_and_objective.py",
+      "destination": "tests/replaid/test_model_and_objective.py",
+      "source_sha256": "3760dd77f7016ab051b657b29f7ae3961f0aa6942e2d5c5f4f9f03e6580fed58",
+      "packaged_sha256": "8ee59486f12fc005dd583c9d6e545f0f54842c19c14a23769ca39a78f40a6436"
+    },
+    {
+      "source": "replaid_original/PROVENANCE.json",
+      "destination": "provenance/replaid_upstream.json",
+      "source_sha256": "94f95aa0ec5bc90cd610ee21ff9dee858f0b5e8aa38582b7c386336b733e90ce",
+      "packaged_sha256": "94f95aa0ec5bc90cd610ee21ff9dee858f0b5e8aa38582b7c386336b733e90ce"
+    },
+    {
+      "source": "replaid_original/README.md",
+      "destination": "provenance/replaid_source_README.md",
+      "source_sha256": "5d8132137339e464096413b3150035f6084a2f020f6d03216d874460a66c31ad",
+      "packaged_sha256": "0ff454d7e91d0ccef57413a903dad8be4d08f042a7d1933abff5aec126e48800"
+    },
+    {
+      "source": "LangFlow_reproduction/scripts/train_langflow.py",
+      "destination": "src/condila/cdlm/langflow/cli.py",
+      "source_sha256": "fadcdcb182935af21a4bad89de817cea4e2b46edaa8db36db90e189145ec89fa",
+      "packaged_sha256": "0d254ef80240bbf0c25c8c0f4aa009a66516aea1ee7548f1b83fc8b60bca765b"
+    },
+    {
+      "source": "LangFlow_reproduction/duo/utils.py",
+      "destination": "src/condila/cdlm/langflow/_data/utils.py",
+      "source_sha256": "715fd5156ae0b54be4c31f29feee0c4e1452973fea16ea5274afa89c63e3bfa2",
+      "adaptation": "Only the three dataset helper functions are retained; heavyweight scheduler and callback helpers are not needed.",
+      "packaged_sha256": "bc28d28df617672d6f871254d24a3577c48dad643d7a89e0299eb2d3dfb140a8"
+    }
+  ],
+  "notes": [
+    "Snapshots include current local changes, not only committed files.",
+    "Metric imports and model data imports are namespaced.",
+    "LangFlow process-wide JIT settings are omitted; dataset helper utilities are provided locally.",
+    "Training tracking is opt-in and uses environment-based credentials.",
+    "Original experiment outputs, checkpoints, caches, virtual environments and credentials are not copied.",
+    "LangFlow exposes generator/initial_noise arguments while retaining Euler-EDM updates.",
+    "Common generation counts solver intervals, uses per-row seeds, and restores per-module training flags.",
+    "New LangFlow Lightning checkpoints store their actual architecture; loaders retain native parameter keys.",
+    "LangFlow validation-best and latest periodic checkpoints are saved by separate callbacks.",
+    "Training configurations are bundled as package resources and provide a default data-cache directory.",
+    "condia.dlm_metrics is a compatibility alias of condila.dlm_metrics, including submodule object identity."
+  ],
+  "added_source_files_sha256": {
+    "src/condila/cli.py": "5906209af98a70c012d7b886c4387542594b27b849f6a141ff191bfdd27fecef",
+    "src/condila/__init__.py": "b657616f692617dc074fdfbfec84f7caa333ec878ca3675225cc9ab499b9cfa2",
+    "src/condila/__main__.py": "19f07de3d1765a6803d4332ab1e67346381236f7769f47640e73849922394790",
+    "src/condila/cdlm/__init__.py": "d0c1c346056ae50150b821103b401c253f8155f6fdb28a3d455877d68a1b0e14",
+    "src/condila/cdlm/registry.py": "5687e52fa9a0fd6871277fd7b3d6b066d00dfb39bce09cc78e3c91a6dfc94f6b",
+    "src/condila/cdlm/langflow/__init__.py": "166472e7799a932c1190c9ea7f7617eea037e52803ae43c49034e6d60f65a50d",
+    "src/condila/cdlm/langflow/loading.py": "08194abc2ed2d9a82ce62e5ca6aac4c3645c0b2d344ae0b207b1caffbc15ba9d",
+    "src/condila/cdlm/langflow/inference.py": "bc7c3a5e155c95526fe3bc6f5d154e03895b5265c4f05a94b805208f994cd87e",
+    "src/condila/cdlm/langflow/configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/condila/cdlm/langflow/_data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/condila/cdlm/replaid/api.py": "4f65afc5f1b66e395eaa9d152335469361ec204a5986661e4dbec27f1b53545b",
+    "src/condila/cdlm/replaid/configs/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/condia/__init__.py": "fcf9d86df02d0115b73f2e8d7f69fa03d7716fd741134f6c836fac7830f7704d",
+    "src/condia/dlm_metrics/__init__.py": "f63ce6cb19103ff0e5ab3e40b496005fdcc53b14ddb63e8f8835693268a7bcd1"
+  }
+}

@@ -1,0 +1,7 @@
+include LICENSE PROVENANCE.json
+recursive-include provenance *.json
+recursive-include src/condila/cdlm *.yaml
+recursive-include docs *.md *.svg
+recursive-include examples *.py
+recursive-include scripts *.py
+
