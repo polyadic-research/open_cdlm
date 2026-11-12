@@ -6,7 +6,7 @@
 </h1>
 
 <p><strong>Continuous diffusion language models, from training to evaluation.</strong></p>
-<p>LangFlow &middot; RePlaid &middot; Unified sampling &middot; Distributional evaluation</p>
+<p>CDLM Baselines&middot; Unified sampling &middot; Distributional evaluation</p>
 
 <p>
   <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-4879ED?logo=python&amp;logoColor=white" alt="Python 3.10 or newer"></a>
