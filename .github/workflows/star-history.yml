@@ -19,7 +19,8 @@ concurrency:
 
 jobs:
   update:
-    if: github.repository == 'hojawn/Condila'
+    # Repository IDs survive renames and transfers; forks have a different ID.
+    if: github.repository_id == '1454437155'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

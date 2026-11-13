@@ -2,20 +2,24 @@
 
 <h1>
   <img src="docs/assets/condila-logo.svg" alt="" width="72" height="44" align="absmiddle">
-  Condila
+  Open CDLM
 </h1>
 
-<p><strong>Continuous diffusion language models, from training to evaluation.</strong></p>
-<p>CDLM Baselines&middot; Unified sampling &middot; Distributional evaluation</p>
+<p><strong>A Unified Library and Benchmark for Continuous Diffusion Language Models</strong></p>
+<p>Hao Jiang &middot; Yujian Chen &middot; Gen Li &middot; Weijian Luo &middot; Tianyang Hu</p>
+<p>CDLM Baselines &middot; Unified sampling &middot; Distributional evaluation</p>
 
 <p>
   <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-4879ED?logo=python&amp;logoColor=white" alt="Python 3.10 or newer"></a>
   <a href="pyproject.toml"><img src="https://img.shields.io/badge/PyTorch-2.3%2B-7B4FE0?logo=pytorch&amp;logoColor=white" alt="PyTorch 2.3 or newer"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-22BCD0" alt="MIT License"></a>
-  <a href="https://github.com/hojawn/Condila"><img src="https://img.shields.io/badge/GitHub-Star%20Condila-1f2328?logo=github&amp;logoColor=white" alt="Star Condila on GitHub"></a>
+  <a href="https://github.com/hojawn/Open_CDLM"><img src="https://img.shields.io/badge/GitHub-Star%20Open%20CDLM-1f2328?logo=github&amp;logoColor=white" alt="Star Open CDLM on GitHub"></a>
 </p>
 
 <p>
+  <!-- arXiv: replace href="#paper" with the paper URL when available. -->
+  <a href="#paper"><strong>arXiv (coming soon)</strong></a>
+  &nbsp;&middot;&nbsp;
   <a href="https://hojawn.github.io/CDLM-Bench/#findings"><strong>Project Page</strong></a>
   &nbsp;&middot;&nbsp;
   <a href="https://pkulwj1994.github.io/polyadic-research/"><strong>Team Page</strong></a>
@@ -34,7 +38,7 @@
 
 ---
 
-**Condila** brings continuous diffusion language models and generation metrics into
+**Open CDLM** brings continuous diffusion language models and generation metrics into
 one Python library. Load a checkpoint, generate samples, and compare output
 distributions through a shared API, with access to each model's native training
 objectives and sampling controls.
@@ -58,8 +62,8 @@ Requires **Python 3.10+** and **PyTorch 2.3+**. For GPU support, install a PyTor
 build compatible with your CUDA version first.
 
 ```bash
-git clone https://github.com/hojawn/Condila.git
-cd Condila
+git clone https://github.com/hojawn/Open_CDLM.git
+cd Open_CDLM
 python -m pip install -e .
 ```
 
@@ -186,7 +190,7 @@ to retrieve the model, tokenizer, and experiment configuration together. Set
 ## Evaluation
 
 Compare saved outputs from multiple generators against a shared reference.
-The metric interfaces also accept samples from text generators outside Condila.
+The metric interfaces also accept samples from text generators outside Open CDLM.
 
 ```python
 from condila.dlm_metrics import evaluate
@@ -328,6 +332,44 @@ classes as `condila.dlm_metrics`.
 
 </details>
 
+## Paper
+
+**Open CDLM: A Unified Library and Benchmark for Continuous Diffusion Language Models**
+
+Hao Jiang<sup>1,2</sup>, Yujian Chen<sup>1,3</sup>, Gen Li<sup>5</sup>,
+Weijian Luo<sup>4</sup>, Tianyang Hu<sup>1,2</sup>.
+
+Manuscript, 2026. The arXiv link will be added when available.
+
+<details>
+<summary><strong>Affiliations and correspondence</strong></summary>
+
+1. Polyadic Research Group
+2. SAGA Lab, The Chinese University of Hong Kong, Shenzhen
+3. School of Computer Science, Peking University
+4. Dots Studio, Xiaohongshu
+5. The Chinese University of Hong Kong
+
+Corresponding authors: [Weijian Luo](mailto:pkulwj1994@icloud.com) and
+[Tianyang Hu](mailto:hutianyang@cuhk.edu.cn).
+
+</details>
+
+<details>
+<summary><strong>Citation (BibTeX)</strong></summary>
+
+```bibtex
+@misc{jiang2026opencdlm,
+  title  = {Open CDLM: A Unified Library and Benchmark for Continuous Diffusion Language Models},
+  author = {Jiang, Hao and Chen, Yujian and Li, Gen and Luo, Weijian and Hu, Tianyang},
+  year   = {2026},
+  note   = {Manuscript},
+  url    = {https://hojawn.github.io/CDLM-Bench/}
+}
+```
+
+</details>
+
 ## Research Team
 
 <p>
@@ -343,8 +385,8 @@ and efficient machine intelligence.
 ## Contributing
 
 Contributions are welcome: model integrations, samplers, metrics, examples, tests,
-and documentation. [Open an issue](https://github.com/hojawn/Condila/issues) to report
-a bug or discuss an idea, or [propose a change](https://github.com/hojawn/Condila/compare).
+and documentation. [Open an issue](https://github.com/hojawn/Open_CDLM/issues) to report
+a bug or discuss an idea, or [propose a change](https://github.com/hojawn/Open_CDLM/compare).
 For bug reports, include your Python and PyTorch versions, a minimal reproduction,
 and the expected and actual behavior.
 
@@ -359,19 +401,19 @@ The default suite excludes `slow` tests that download model weights. Run
 
 ## License
 
-Condila is distributed under the [MIT License](LICENSE).
+Open CDLM is distributed under the [MIT License](LICENSE).
 
 ## Star History
 
-If Condila is useful for your research, consider
-[starring the repository](https://github.com/hojawn/Condila) to help others discover it.
+If Open CDLM is useful for your research, consider
+[starring the repository](https://github.com/hojawn/Open_CDLM) to help others discover it.
 
 <p align="center">
-  <a href="https://github.com/hojawn/Condila/stargazers">
+  <a href="https://github.com/hojawn/Open_CDLM/stargazers">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg">
       <source media="(prefers-color-scheme: light)" srcset="docs/assets/star-history.svg">
-      <img alt="Condila GitHub Star History" src="docs/assets/star-history.svg" width="800">
+      <img alt="Open CDLM GitHub Star History" src="docs/assets/star-history.svg" width="800">
     </picture>
   </a>
 </p>

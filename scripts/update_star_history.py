@@ -66,14 +66,26 @@ def fetch_star_count(repository, token=None):
     return count
 
 
-def load_history(path, repository):
+def load_history(path, repository, repository_id=None):
+    """Keep observations through a rename when the stable repository IDs match."""
     validate_repository(repository)
-    if not path.exists():
-        return {"repository": repository, "observations": []}
-    history = json.loads(path.read_text(encoding="utf-8"))
+    history = (
+        json.loads(path.read_text(encoding="utf-8"))
+        if path.exists()
+        else {"repository": repository, "observations": []}
+    )
     if not isinstance(history, dict):
         raise TypeError("history must be an object")
-    if history.get("repository", "").lower() != repository.lower():
+    saved_id = history.get("repository_id")
+    for value in (repository_id, saved_id):
+        if value is not None and (
+            isinstance(value, bool) or not isinstance(value, int) or value <= 0
+        ):
+            raise ValueError("repository_id must be a positive integer")
+    if repository_id is not None and saved_id is not None and repository_id != saved_id:
+        raise ValueError("history belongs to a different repository ID")
+    same_id = repository_id is not None and repository_id == saved_id
+    if history.get("repository", "").lower() != repository.lower() and not same_id:
         raise ValueError("history belongs to a different repository")
     observations = history.get("observations")
     if not isinstance(observations, list):
@@ -91,10 +103,12 @@ def load_history(path, repository):
         ):
             raise ValueError("history must contain unique dates and nonnegative integer counts")
         seen.add(day)
-    return {
-        "repository": repository,
-        "observations": sorted(observations, key=lambda item: item["date"]),
-    }
+    result = {"repository": repository}
+    resolved_id = repository_id if repository_id is not None else saved_id
+    if resolved_id is not None:
+        result["repository_id"] = resolved_id
+    result["observations"] = sorted(observations, key=lambda item: item["date"])
+    return result
 
 
 def record_observation(history, day, count):
@@ -103,7 +117,7 @@ def record_observation(history, day, count):
     observations = {item["date"]: dict(item) for item in history["observations"]}
     observations[day.isoformat()] = {"date": day.isoformat(), "stars": count}
     return {
-        "repository": history["repository"],
+        **history,
         "observations": [observations[key] for key in sorted(observations)],
     }
 
@@ -165,7 +179,7 @@ def figure_svg(figure, history):
             "Title": f"{history['repository']} star history",
         },
     )
-    return buffer.getvalue()
+    return "\n".join(line.rstrip() for line in buffer.getvalue().splitlines()) + "\n"
 
 
 def render_chart(history, theme):
@@ -260,16 +274,30 @@ def save_history(root, history):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", "hojawn/Condila"))
+    parser.add_argument(
+        "--repo",
+        default=os.environ.get("GITHUB_REPOSITORY"),
+        help="owner/name (defaults to GITHUB_REPOSITORY or the saved history)",
+    )
+    parser.add_argument(
+        "--repo-id",
+        type=int,
+        default=os.environ.get("GITHUB_REPOSITORY_ID"),
+        help="stable repository ID (defaults to GITHUB_REPOSITORY_ID)",
+    )
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument(
         "--render-only", action="store_true", help="render saved observations offline"
     )
     args = parser.parse_args(argv)
     try:
-        history = load_history(args.root / "docs/assets/star-history.json", args.repo)
+        path = args.root / "docs/assets/star-history.json"
+        repository = args.repo
+        if repository is None:
+            repository = json.loads(path.read_text(encoding="utf-8"))["repository"]
+        history = load_history(path, repository, args.repo_id)
         if not args.render_only:
-            count = fetch_star_count(args.repo, os.environ.get("GITHUB_TOKEN"))
+            count = fetch_star_count(repository, os.environ.get("GITHUB_TOKEN"))
             history = record_observation(history, datetime.now(timezone.utc).date(), count)
         save_history(args.root, history)
     except HTTPError as exc:

@@ -3,7 +3,7 @@
 import importlib.util
 import io
 import json
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from xml.etree import ElementTree
@@ -144,3 +144,57 @@ def test_repository_metadata_request_uses_the_supplied_token(monkeypatch):
 
     monkeypatch.setattr(stars, "urlopen", respond)
     assert stars.fetch_star_count("hojawn/Condila", "test-token") == 12
+
+
+def test_renamed_repository_keeps_history_and_renders_the_second_day(tmp_path, monkeypatch):
+    saved = history({"date": "2026-11-12", "stars": 5})
+    saved["repository_id"] = 1454437155
+    stars.save_history(tmp_path, saved)
+
+    class FixedDatetime:
+        @staticmethod
+        def now(tz):
+            return datetime(2026, 11, 13, 8, tzinfo=tz)
+
+    monkeypatch.setattr(stars, "datetime", FixedDatetime)
+    monkeypatch.setenv("GITHUB_REPOSITORY", "hojawn/Open_CDLM")
+    monkeypatch.setenv("GITHUB_REPOSITORY_ID", "1454437155")
+    monkeypatch.setattr(stars, "fetch_star_count", lambda *args: 5)
+
+    assert stars.main(["--root", str(tmp_path)]) == 0
+    updated = stars.load_history(
+        tmp_path / "docs/assets/star-history.json", "hojawn/Open_CDLM", 1454437155
+    )
+    assert updated["repository"] == "hojawn/Open_CDLM"
+    assert updated["repository_id"] == 1454437155
+    assert updated["observations"] == [
+        {"date": "2026-11-12", "stars": 5},
+        {"date": "2026-11-13", "stars": 5},
+    ]
+    for name in ["star-history.svg", "star-history-dark.svg"]:
+        svg = (tmp_path / "docs/assets" / name).read_text(encoding="utf-8")
+        assert "Star History" in svg
+        assert "another daily observation" not in svg
+        assert "2026-11-12" in svg and "2026-11-13" in svg
+
+
+@pytest.mark.parametrize("name", ["hojawn/Condila", "hojawn/Open_CDLM"])
+def test_different_repository_id_cannot_reuse_saved_history(tmp_path, name):
+    saved = history({"date": "2026-11-12", "stars": 5})
+    saved["repository_id"] = 1454437155
+    stars.save_history(tmp_path, saved)
+    with pytest.raises(ValueError, match="different repository ID"):
+        stars.load_history(tmp_path / "docs/assets/star-history.json", name, 1454437156)
+
+
+def test_offline_render_uses_the_saved_repository_name(tmp_path, monkeypatch):
+    saved = {
+        "repository": "hojawn/Open_CDLM",
+        "repository_id": 1454437155,
+        "observations": [{"date": "2026-11-12", "stars": 5}],
+    }
+    stars.save_history(tmp_path, saved)
+    monkeypatch.delenv("GITHUB_REPOSITORY", raising=False)
+    monkeypatch.delenv("GITHUB_REPOSITORY_ID", raising=False)
+    assert stars.main(["--root", str(tmp_path), "--render-only"]) == 0
+    assert json.loads((tmp_path / "docs/assets/star-history.json").read_text()) == saved
