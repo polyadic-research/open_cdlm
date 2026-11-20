@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from condila.cdlm.langflow.model import Rotary, split_and_apply_rotary_pos_emb
+from open_cdlm.cdlm.langflow.model import Rotary, split_and_apply_rotary_pos_emb
 
 
 DEVICES = ["cpu"] + (["cuda"] if torch.cuda.is_available() else [])

@@ -1,6 +1,6 @@
 """Install a built wheel into a temporary target and exercise it outside the source tree.
 
-The current interpreter must already have Condila's base and training dependencies.
+The current interpreter must already have Open CDLM's base and training dependencies.
 No model weights or datasets are downloaded.
 """
 import argparse
@@ -19,7 +19,7 @@ def main():
     wheel = args.wheel.resolve()
     if not wheel.is_file():
         parser.error(f"wheel not found: {wheel}")
-    with tempfile.TemporaryDirectory(prefix="condila-wheel-") as directory:
+    with tempfile.TemporaryDirectory(prefix="open_cdlm-wheel-") as directory:
         target = Path(directory) / "installed"
         subprocess.run(
             [sys.executable, "-m", "pip", "install", "--disable-pip-version-check", "--no-index",
@@ -33,19 +33,30 @@ def main():
         code = r'''
 import sys
 from pathlib import Path
+from importlib.metadata import distribution
 from importlib.resources import files
-import condila
-assert Path(condila.__file__).is_relative_to(Path(sys.argv[1]))
-from condila.cdlm import list_models
+import open_cdlm
+target = Path(sys.argv[1])
+assert Path(open_cdlm.__file__).is_relative_to(target)
+metadata = distribution('open_cdlm')
+assert metadata.metadata['Name'] == 'open_cdlm'
+assert Path(metadata.locate_file('')).resolve() == target.resolve()
+assert all(
+    ep.name == 'open_cdlm' or ep.name.startswith('open_cdlm-')
+    for ep in metadata.entry_points if ep.group == 'console_scripts'
+)
+assert not any(target.joinpath(name).exists() for name in ('condila', 'condia'))
+from open_cdlm.cdlm import list_models
 assert list_models() == ('langflow', 'replaid')
 assert 'torch' not in sys.modules
-from condila.dlm_metrics import MMD
-from condia.dlm_metrics import MMD as Alias
-assert MMD is Alias
-assert files('condila.cdlm.langflow.configs').joinpath('train.yaml').is_file()
-assert files('condila.cdlm.langflow.configs').joinpath('model/langflow-owt.yaml').is_file()
-assert files('condila.cdlm.replaid.configs').joinpath('owt_sc.yaml').is_file()
-from condila.cdlm import create_model, generate
+from open_cdlm.dlm_metrics import KTD, MTD
+assert MTD.__module__ == 'open_cdlm.dlm_metrics.metrics.feature'
+assert KTD.__module__ == 'open_cdlm.dlm_metrics.metrics.ktd'
+assert files('open_cdlm.cdlm.langflow.configs').joinpath('train.yaml').is_file()
+assert files('open_cdlm.cdlm.langflow.configs').joinpath('model/langflow-owt.yaml').is_file()
+assert files('open_cdlm.cdlm.langflow.configs').joinpath('owt_pytorch.yaml').is_file()
+assert files('open_cdlm.cdlm.replaid.configs').joinpath('owt_sc.yaml').is_file()
+from open_cdlm.cdlm import create_model, generate
 settings = {
  'langflow': dict(vocab_size=18, hidden_size=16, cond_dim=8, n_blocks=1,
                  n_heads=2, dropout=0., model_length=8),
@@ -59,11 +70,11 @@ assert not {'langflow', 'duo', 'replaid_original', 'dlm_metrics'} & sys.modules.
 '''
         commands = [
             [sys.executable, "-c", code, str(target)],
-            [str(target / "bin/condila"), "--version"],
-            [str(target / "bin/condila"), "models"],
-            [str(target / "bin/condila-metrics"), "--help"],
-            [str(target / "bin/condila-langflow-train"), "--cfg", "job", "--resolve"],
-            [str(target / "bin/condila-replaid-train"), "--dry-run", "--device", "cpu"],
+            [str(target / "bin/open_cdlm"), "--version"],
+            [str(target / "bin/open_cdlm"), "models"],
+            [str(target / "bin/open_cdlm-metrics"), "--help"],
+            [str(target / "bin/open_cdlm-langflow-train"), "--dry-run", "--device", "cpu"],
+            [str(target / "bin/open_cdlm-replaid-train"), "--dry-run", "--device", "cpu"],
         ]
         for command in commands:
             result = subprocess.run(

@@ -10,16 +10,16 @@ import pytest
 from safetensors.torch import load_file
 import torch
 
-from condila.cdlm.replaid.checkpoint import (
+from open_cdlm.cdlm.replaid.checkpoint import (
     initialize_ema,
     latest_checkpoint,
     load_model,
     save_checkpoint,
 )
-from condila.cdlm.replaid.data import PreparedDataset, RandomBatchSampler
-from condila.cdlm.replaid.prepare import pack_documents, prepare
-from condila.cdlm.replaid.model import RePlaid
-from condila.cdlm.replaid.optim import build_optimizer, build_scheduler
+from open_cdlm.cdlm.replaid.data import PreparedDataset, RandomBatchSampler
+from open_cdlm.cdlm.replaid.prepare import pack_documents, prepare
+from open_cdlm.cdlm.replaid.model import RePlaid
+from open_cdlm.cdlm.replaid.optim import build_optimizer, build_scheduler
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -146,7 +146,7 @@ def test_full_pipeline_exact_resume_and_evaluation(tmp_path, prepared_data, tiny
     config_path = tmp_path / "config.json"
     config_path.write_text(json.dumps(asdict(tiny_config)))
     full, resumed = tmp_path / "full", tmp_path / "resumed"
-    common = ["-m", "condila.cdlm.replaid.train", "--config", config_path, "--device", "cpu"]
+    common = ["-m", "open_cdlm.cdlm.replaid.train", "--config", config_path, "--device", "cpu"]
     command(*common, "--output-dir", full)
     command(*common, "--output-dir", resumed, "--stop-after-steps", "2")
     command(*common, "--output-dir", resumed, "--resume", "latest")
@@ -163,7 +163,7 @@ def test_full_pipeline_exact_resume_and_evaluation(tmp_path, prepared_data, tiny
     evaluation = tmp_path / "nelbo.json"
     command(
         "-m",
-        "condila.cdlm.replaid.evaluate",
+        "open_cdlm.cdlm.replaid.evaluate",
         "--checkpoint",
         checkpoint,
         "--output",
@@ -184,7 +184,7 @@ def test_full_pipeline_exact_resume_and_evaluation(tmp_path, prepared_data, tiny
     samples = tmp_path / "samples.jsonl"
     command(
         "-m",
-        "condila.cdlm.replaid.sample",
+        "open_cdlm.cdlm.replaid.sample",
         "--checkpoint",
         checkpoint,
         "--output",
@@ -206,7 +206,7 @@ def test_full_pipeline_exact_resume_and_evaluation(tmp_path, prepared_data, tiny
     reference = tmp_path / "reference.jsonl"
     command(
         "-m",
-        "condila.cdlm.replaid.reference",
+        "open_cdlm.cdlm.replaid.reference",
         "--data-dir",
         prepared_data,
         "--output",
@@ -216,7 +216,7 @@ def test_full_pipeline_exact_resume_and_evaluation(tmp_path, prepared_data, tiny
     )
     scores = tmp_path / "quality.json"
     command(
-        "-m", "condila.cdlm.replaid.score", "--samples", samples, "--skip-gen-ppl", "--output", scores
+        "-m", "open_cdlm.cdlm.replaid.score", "--samples", samples, "--skip-gen-ppl", "--output", scores
     )
     assert json.loads(scores.read_text())["num_generated_samples"] == 4
 
@@ -235,7 +235,7 @@ def test_torchrun_two_rank_training_and_sampling(tmp_path, prepared_data, tiny_c
         "--nproc_per_node",
         "2",
         "-m",
-        "condila.cdlm.replaid.train",
+        "open_cdlm.cdlm.replaid.train",
         "--config",
         config_path,
         "--device",
@@ -251,7 +251,7 @@ def test_torchrun_two_rank_training_and_sampling(tmp_path, prepared_data, tiny_c
         "--nproc_per_node",
         "2",
         "-m",
-        "condila.cdlm.replaid.sample",
+        "open_cdlm.cdlm.replaid.sample",
         "--checkpoint",
         checkpoint,
         "--output",
@@ -269,3 +269,76 @@ def test_torchrun_two_rank_training_and_sampling(tmp_path, prepared_data, tiny_c
     )
     records = [json.loads(line) for line in output.read_text().splitlines()]
     assert [row["sample_id"] for row in records] == list(range(5))
+
+
+def _langflow_config(tmp_path, prepared_data, tiny_config):
+    config = tiny_config.to_dict()
+    config["experiment_id"] = "tiny_langflow"
+    config["model"] = dict(
+        vocab_size=18, hidden_size=16, cond_dim=8, n_blocks=2, n_heads=2,
+        model_length=8, dropout=0.1, self_conditioning=True,
+    )
+    config["data"]["directory"] = str(prepared_data)
+    config["train"].pop("special_learning_rate")
+    config["train"].pop("gamma_bounds_weight_decay")
+    config["train"].update(
+        gradient_checkpointing=True, bias_warmup_steps=1, self_condition_probability=1.0,
+    )
+    path = tmp_path / "langflow.json"
+    path.write_text(json.dumps(config))
+    return path
+
+
+def test_langflow_shared_training_resume_and_sampling(tmp_path, prepared_data, tiny_config):
+    from open_cdlm.cdlm import from_pretrained, generate
+
+    config = _langflow_config(tmp_path, prepared_data, tiny_config)
+    full, resumed = tmp_path / "full", tmp_path / "resumed"
+    native_entry = """
+import sys
+sys.modules.update(lightning=None, pytorch_lightning=None, hydra=None)
+from open_cdlm.cli import main
+main()
+"""
+    common = ["-c", native_entry, "train", "--model", "langflow", "--config", config, "--device", "cpu"]
+    command(*common, "--output-dir", full)
+    command(*common, "--output-dir", resumed, "--stop-after-steps", "2")
+    command(*common, "--output-dir", resumed, "--resume", "latest")
+    checkpoint = resumed / "checkpoints/checkpoint-4"
+    for file in ("model.safetensors", "ema.safetensors"):
+        expected = load_file(str(full / "checkpoints/checkpoint-4" / file))
+        actual = load_file(str(checkpoint / file))
+        for name in expected:
+            torch.testing.assert_close(expected[name], actual[name], rtol=0, atol=0, msg=name)
+    log = [json.loads(line) for line in (resumed / "train_metrics.jsonl").read_text().splitlines()]
+    assert [row["step"] for row in log] == [1, 2, 3, 4]
+    assert [row["use_bias"] for row in log] == [False, True, True, True]
+    assert all(np.isfinite(row["ce_loss"] + row["scheduler_loss"]) for row in log)
+    validation = json.loads((resumed / "validation_metrics.jsonl").read_text().splitlines()[-1])
+    assert validation["num_sequences"] == 4
+    assert len(validation["ce_by_gamma"]) == 11
+    raw = from_pretrained("langflow", checkpoint, weights="raw")
+    ema = from_pretrained("langflow", checkpoint)
+    torch.testing.assert_close(
+        ema.proposal.loc, load_file(str(checkpoint / "ema.safetensors"))["proposal.loc"],
+    )
+    assert not torch.equal(raw.proposal.loc, ema.proposal.loc)
+    assert generate(ema, num_samples=2, steps=2).shape == (2, 8)
+
+
+def test_langflow_shared_training_with_two_ranks(tmp_path, prepared_data, tiny_config):
+    config = _langflow_config(tmp_path, prepared_data, tiny_config)
+    output = tmp_path / "distributed_langflow"
+    command(
+        "-m", "torch.distributed.run", "--standalone", "--nproc-per-node", "2",
+        "-m", "open_cdlm.cdlm.training", "--model", "langflow", "--config", config,
+        "--device", "cpu", "--output-dir", output, "--stop-after-steps", "2",
+    )
+    checkpoint = torch.load(
+        output / "checkpoints/checkpoint-2/training.pt", map_location="cpu", weights_only=False,
+    )
+    assert checkpoint["topology"] == {"world_size": 2, "batch_size": 2, "accumulation_steps": 2}
+    assert len(checkpoint["rng_by_rank"]) == 2
+    validation = json.loads((output / "validation_metrics.jsonl").read_text())
+    assert validation["num_sequences"] == 4
+    assert np.isfinite(validation["denoising_ce_nats_per_token"])

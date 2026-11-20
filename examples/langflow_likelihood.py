@@ -4,9 +4,9 @@ import argparse
 import numpy as np
 import torch
 
-from condila.cdlm import from_pretrained
-from condila.dlm_metrics import load_samples
-from condila.dlm_metrics.likelihood import LangFlowAdapter, NLLBound
+from open_cdlm.cdlm import from_pretrained
+from open_cdlm.dlm_metrics import load_samples
+from open_cdlm.dlm_metrics.likelihood import LangFlowAdapter, NLLBound
 
 
 def main():

@@ -6,13 +6,13 @@ import torch
 from safetensors.torch import save_file
 from transformers import BertTokenizer
 
-from condila.cdlm.langflow import LangFlow, LangFlowConfig
+from open_cdlm.cdlm.langflow import LangFlow, LangFlowConfig
 
 
 
 
 def test_wrapped_bert_data_uses_sep_for_eos(tmp_path, monkeypatch):
-    from condila.cdlm.langflow._data import dataloader
+    from open_cdlm.cdlm.langflow._data import dataloader
 
     vocab = tmp_path / "vocab.txt"
     vocab.write_text("[PAD]\n[UNK]\n[CLS]\n[SEP]\n[MASK]\nhello\nworld\n")
@@ -31,7 +31,7 @@ def test_wrapped_bert_data_uses_sep_for_eos(tmp_path, monkeypatch):
 
 
 def test_data_cache_distinguishes_tokenizers_and_revisions(tmp_path, monkeypatch):
-    from condila.cdlm.langflow._data import dataloader
+    from open_cdlm.cdlm.langflow._data import dataloader
 
     vocab = tmp_path / "vocab.txt"
     vocab.write_text("[PAD]\n[UNK]\n[CLS]\n[SEP]\n[MASK]\nhello\nworld\n")

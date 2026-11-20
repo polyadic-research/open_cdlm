@@ -18,7 +18,7 @@ SPEC.loader.exec_module(stars)
 
 
 def history(*observations):
-    return {"repository": "hojawn/Condila", "observations": list(observations)}
+    return {"repository": "hojawn/Open_CDLM", "observations": list(observations)}
 
 
 @pytest.mark.parametrize("theme", ["light", "dark"])
@@ -68,7 +68,7 @@ def test_corrupt_history_is_rejected(tmp_path):
     ]:
         path.write_text(json.dumps(payload), encoding="utf-8")
         with pytest.raises(ValueError):
-            stars.load_history(path, "hojawn/Condila")
+            stars.load_history(path, "hojawn/Open_CDLM")
 
 
 @pytest.mark.parametrize("theme", ["light", "dark"])
@@ -104,14 +104,14 @@ def test_failed_fetch_keeps_the_last_good_files(tmp_path, monkeypatch, error):
         raise error
 
     monkeypatch.setattr(stars, "fetch_star_count", fail)
-    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Condila"]) == 1
+    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Open_CDLM"]) == 1
     assert {p.name: p.read_bytes() for p in folder.iterdir()} == before
 
 
 def test_successful_update_stores_only_the_real_observation(tmp_path, monkeypatch):
     monkeypatch.setattr(stars, "fetch_star_count", lambda *args: 4)
-    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Condila"]) == 0
-    saved = stars.load_history(tmp_path / "docs/assets/star-history.json", "hojawn/Condila")
+    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Open_CDLM"]) == 0
+    saved = stars.load_history(tmp_path / "docs/assets/star-history.json", "hojawn/Open_CDLM")
     assert len(saved["observations"]) == 1
     assert saved["observations"][0]["stars"] == 4
     assert (tmp_path / "docs/assets/star-history.svg").exists()
@@ -131,23 +131,24 @@ def test_failed_render_keeps_the_last_good_files(tmp_path, monkeypatch):
         return render(history, theme)
 
     monkeypatch.setattr(stars, "render_chart", fail_on_dark)
-    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Condila"]) == 1
+    assert stars.main(["--root", str(tmp_path), "--repo", "hojawn/Open_CDLM"]) == 1
     assert {p.name: p.read_bytes() for p in folder.iterdir()} == before
 
 
 def test_repository_metadata_request_uses_the_supplied_token(monkeypatch):
     def respond(request, timeout):
-        assert request.full_url == "https://api.github.com/repos/hojawn/Condila"
+        assert request.full_url == "https://api.github.com/repos/hojawn/Open_CDLM"
         assert request.get_header("Authorization") == "Bearer test-token"
         assert timeout == 30
         return io.BytesIO(b'{"stargazers_count": 12}')
 
     monkeypatch.setattr(stars, "urlopen", respond)
-    assert stars.fetch_star_count("hojawn/Condila", "test-token") == 12
+    assert stars.fetch_star_count("hojawn/Open_CDLM", "test-token") == 12
 
 
 def test_renamed_repository_keeps_history_and_renders_the_second_day(tmp_path, monkeypatch):
     saved = history({"date": "2026-11-12", "stars": 5})
+    saved["repository"] = "hojawn/Previous_CDLM"
     saved["repository_id"] = 1454437155
     stars.save_history(tmp_path, saved)
 
@@ -178,7 +179,7 @@ def test_renamed_repository_keeps_history_and_renders_the_second_day(tmp_path, m
         assert "2026-11-12" in svg and "2026-11-13" in svg
 
 
-@pytest.mark.parametrize("name", ["hojawn/Condila", "hojawn/Open_CDLM"])
+@pytest.mark.parametrize("name", ["hojawn/Previous_CDLM", "hojawn/Open_CDLM"])
 def test_different_repository_id_cannot_reuse_saved_history(tmp_path, name):
     saved = history({"date": "2026-11-12", "stars": 5})
     saved["repository_id"] = 1454437155

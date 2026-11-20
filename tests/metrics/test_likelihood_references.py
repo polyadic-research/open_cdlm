@@ -4,7 +4,7 @@ import math
 import pytest
 import torch
 
-from condila.dlm_metrics.likelihood import ode_nll_bound
+from open_cdlm.dlm_metrics.likelihood import ode_nll_bound
 
 
 class AffineFlow:

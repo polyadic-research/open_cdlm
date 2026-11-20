@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SVG_STYLE = {
     "font.family": "DejaVu Sans",
     "svg.fonttype": "path",
-    "svg.hashsalt": "condila-star-history",
+    "svg.hashsalt": "open_cdlm-star-history",
 }
 THEMES = {
     "light": {
@@ -52,7 +52,7 @@ def validate_repository(repository):
 def fetch_star_count(repository, token=None):
     """Read the current count from repository metadata, without third-party services."""
     validate_repository(repository)
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "condila-star-history"}
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "open_cdlm-star-history"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
     request = Request(f"https://api.github.com/repos/{repository}", headers=headers)
@@ -175,7 +175,7 @@ def figure_svg(figure, history):
         buffer,
         metadata={
             "Date": None,
-            "Creator": "Condila",
+            "Creator": "Open CDLM",
             "Title": f"{history['repository']} star history",
         },
     )

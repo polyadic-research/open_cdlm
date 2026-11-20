@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 import torch
 
-from condila.dlm_metrics import (MMD, PRDC, FeatureVendi, FrechetDistance, MetricCollection, MultiScaleMMD, EntropyDecomposition,
-                         Samples, load_samples, ExactDuplicateRate)
-from condila.dlm_metrics.functional import mmd as f_mmd, l2_normalize
+from open_cdlm.dlm_metrics import (MMD, MTD, PRDC, EntropyDecomposition, ExactDuplicateRate, FeatureVendi,
+                                  FrechetDistance, MetricCollection, MultiScaleMTD, Samples, load_samples)
+from open_cdlm.dlm_metrics.functional import mmd as f_mmd, l2_normalize
 
 
 def test_samples_wrap_and_subset(rng):
@@ -41,36 +41,40 @@ def test_load_samples_formats(tmp_path, rng):
 
 def test_feature_metrics_lifecycle(stub, rng):
     real, fake = rng.integers(0, 64, size=(60, 32)), rng.integers(0, 40, size=(50, 32))
-    m = MMD(extractor=stub, reset_real_features=False, null_repeats=5)
+    m = MTD(extractor=stub, reset_real_features=False, null_repeats=5)
     m.update(real[:30], real=True); m.update(real[30:], real=True)
     m.update(fake)
     out = m.compute()
     X, Y = l2_normalize(stub(Samples.wrap(real))), l2_normalize(stub(Samples.wrap(fake)))
-    assert abs(out["mmd"] - f_mmd(X, Y)) < 1e-12 and out["n_real"] == 60 and out["n_fake"] == 50 and "null_sd" in out
+    assert abs(out["mtd"] - f_mmd(X, Y)) < 1e-12
+    assert out["n_real"] == 60 and out["n_fake"] == 50 and "null_sd" in out
+    legacy = MMD(extractor=stub, null_repeats=5)
+    legacy.load_state_dict(m.state_dict())
+    assert legacy.compute() == {k.replace("mtd", "mmd"): v for k, v in out.items()}
     m.reset()
     assert len(m.real_features) == 2 and m.fake_features == []        # real features kept
     m.update(real[:50])
-    assert m.compute()["mmd"] < out["mmd"]
-    q = MMD(extractor=stub, bandwidth_multiplier=0.25)
+    assert m.compute()["mtd"] < out["mtd"]
+    q = MTD(extractor=stub, bandwidth_multiplier=0.25)
     q.update(real, real=True); q.update(fake)
     assert abs(q.compute()["bandwidth"] - 0.25 * out["bandwidth"]) < 1e-12
     with pytest.raises(RuntimeError):
-        MMD(extractor=stub).compute()
+        MTD(extractor=stub).compute()
 
 
 def test_collection_shares_features(stub, rng):
     real, fake = rng.integers(0, 64, size=(40, 16)), rng.integers(0, 64, size=(40, 16))
-    coll = MetricCollection({"mmd": MMD(extractor=stub), "ms": MultiScaleMMD(extractor=stub), "prdc": PRDC(extractor=stub),
+    coll = MetricCollection({"mtd": MTD(extractor=stub), "ms": MultiScaleMTD(extractor=stub), "prdc": PRDC(extractor=stub),
                              "fd": FrechetDistance(extractor=stub), "vendi": FeatureVendi(extractor=stub),
                              "ent": EntropyDecomposition(), "dup": ExactDuplicateRate()})
     coll.update(real, real=True)
     coll.update(fake)
     out = coll.compute()
-    assert set(out) == {"mmd", "ms", "prdc", "fd", "vendi", "ent", "dup"}
+    assert set(out) == {"mtd", "ms", "prdc", "fd", "vendi", "ent", "dup"}
     assert out["ent"]["n_rows"] == 40                     # single-sample metrics never see the real rows
     assert out["vendi"]["n_fake"] == 40
     flat = coll.compute(flat=True)
-    assert "mmd/mmd" in flat and "prdc/recall" in flat
+    assert "mtd/mtd" in flat and "ms/mtd_multiscale" in flat and "prdc/recall" in flat
 
 
 def test_state_dict_merge(rng):

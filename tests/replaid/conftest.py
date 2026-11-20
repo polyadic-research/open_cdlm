@@ -8,8 +8,8 @@ from tokenizers.models import WordLevel
 from tokenizers.pre_tokenizers import Whitespace
 from transformers import PreTrainedTokenizerFast
 
-from condila.cdlm.replaid.config import ExperimentConfig
-from condila.cdlm.replaid.prepare import prepare
+from open_cdlm.cdlm.replaid.config import ExperimentConfig
+from open_cdlm.cdlm.replaid.prepare import prepare
 
 
 @pytest.fixture(autouse=True)

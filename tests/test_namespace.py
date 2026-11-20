@@ -9,35 +9,23 @@ import pytest
 def test_root_and_model_discovery_do_not_import_heavy_dependencies(tmp_path):
     code = """
 import sys
-import condila
-from condila.cdlm import list_models
+import open_cdlm
+from open_cdlm.cdlm import list_models
 assert list_models() == ('langflow', 'replaid')
-assert condila.__version__ == '0.1.0'
+assert open_cdlm.__version__ == '0.1.0'
 assert not {'torch', 'transformers', 'lightning', 'datasets'} & sys.modules.keys()
 """
     subprocess.run([sys.executable, "-c", code], cwd=tmp_path, check=True)
 
 
-def test_compatibility_spelling_shares_all_module_and_class_objects():
-    from condia.dlm_metrics.base import Metric as alias_metric
-    from condia.dlm_metrics.functional.kernel import mmd2_rbf as alias_mmd
-    from condia.dlm_metrics.likelihood import LangFlowAdapter as alias_adapter
+def test_metrics_use_the_open_cdlm_namespace():
+    from open_cdlm.dlm_metrics import MMD
 
-    import condia.dlm_metrics as alias
-    import condila.dlm_metrics as canonical
-    from condila.dlm_metrics.base import Metric
-    from condila.dlm_metrics.functional.kernel import mmd2_rbf
-    from condila.dlm_metrics.likelihood import LangFlowAdapter
-
-    assert alias is canonical
-    assert alias_metric is Metric
-    assert alias_mmd is mmd2_rbf
-    assert alias_adapter is LangFlowAdapter
-    assert canonical.MMD.__module__ == "condila.dlm_metrics.metrics.feature"
+    assert MMD.__module__ == "open_cdlm.dlm_metrics.metrics.feature"
 
 
 @pytest.mark.parametrize("module", [
-    "condila", "condila.cdlm.langflow", "condila.cdlm.replaid", "condia",
+    "open_cdlm", "open_cdlm.cdlm.langflow", "open_cdlm.cdlm.replaid",
 ])
 def test_unknown_attributes_fail_normally(module):
     from importlib import import_module
@@ -47,25 +35,26 @@ def test_unknown_attributes_fail_normally(module):
 
 
 def test_public_namespaces_do_not_import_original_projects():
-    from condila.cdlm import LangFlow, LangFlowConfig, RePlaid, RePlaidConfig
+    from open_cdlm.cdlm import LangFlow, LangFlowConfig, RePlaid, RePlaidConfig
 
-    assert LangFlow.__module__.startswith("condila.cdlm.langflow")
-    assert RePlaid.__module__.startswith("condila.cdlm.replaid")
-    assert LangFlowConfig.__module__.startswith("condila.")
-    assert RePlaidConfig.__module__.startswith("condila.")
+    assert LangFlow.__module__.startswith("open_cdlm.cdlm.langflow")
+    assert RePlaid.__module__.startswith("open_cdlm.cdlm.replaid")
+    assert LangFlowConfig.__module__.startswith("open_cdlm.")
+    assert RePlaidConfig.__module__.startswith("open_cdlm.")
     assert not {"langflow", "duo", "replaid_original", "dlm_metrics"} & sys.modules.keys()
 
 
 @pytest.mark.parametrize("command", [
-    ["condila", "--help"],
-    ["condila", "metrics", "--help"],
-    ["condila.cdlm.langflow.cli", "--cfg", "job"],
-    ["condila.cdlm.langflow.inference", "--help"],
-    ["condila.cdlm.replaid.prepare", "--help"],
-    ["condila.cdlm.replaid.sample", "--help"],
-    ["condila.cdlm.replaid.evaluate", "--help"],
-    ["condila.cdlm.replaid.score", "--help"],
-    ["condila.cdlm.replaid.reference", "--help"],
+    ["open_cdlm", "--help"],
+    ["open_cdlm", "metrics", "--help"],
+    ["open_cdlm", "train", "--help"],
+    ["open_cdlm.cdlm.langflow.cli", "--dry-run", "--device", "cpu"],
+    ["open_cdlm.cdlm.langflow.inference", "--help"],
+    ["open_cdlm.cdlm.replaid.prepare", "--help"],
+    ["open_cdlm.cdlm.replaid.sample", "--help"],
+    ["open_cdlm.cdlm.replaid.evaluate", "--help"],
+    ["open_cdlm.cdlm.replaid.score", "--help"],
+    ["open_cdlm.cdlm.replaid.reference", "--help"],
 ])
 def test_cli_entrypoints_work_outside_repository(command, tmp_path):
     result = subprocess.run(
@@ -73,13 +62,13 @@ def test_cli_entrypoints_work_outside_repository(command, tmp_path):
         env={**os.environ, "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}, timeout=60,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    if "--cfg" in command:
-        assert "use_wandb: false" in result.stdout
+    if "--dry-run" in command:
+        assert '"experiment_id": "LANGFLOW_OWT"' in result.stdout
 
 
 def test_default_replaid_config_is_packaged_and_independent_of_cwd(tmp_path):
     result = subprocess.run(
-        [sys.executable, "-m", "condila.cdlm.replaid.train", "--dry-run", "--device", "cpu"],
+        [sys.executable, "-m", "open_cdlm.cdlm.replaid.train", "--dry-run", "--device", "cpu"],
         check=False, cwd=tmp_path, text=True, capture_output=True,
         env={**os.environ, "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}, timeout=60,
     )
@@ -88,9 +77,9 @@ def test_default_replaid_config_is_packaged_and_independent_of_cwd(tmp_path):
 
 
 def test_no_original_project_paths_or_runtime_path_injection():
-    import condila
+    import open_cdlm
 
-    for path in Path(condila.__file__).parent.rglob("*.py"):
+    for path in Path(open_cdlm.__file__).parent.rglob("*.py"):
         source = path.read_text(encoding="utf-8")
         assert "sys.path.insert" not in source, path
         for prefix in ("from langflow ", "from replaid_original ", "from dlm_metrics ", "from duo "):

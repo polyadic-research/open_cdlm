@@ -4,8 +4,8 @@ import numpy as np
 import torch
 from transformers import GPT2Config, GPT2LMHeadModel, ModernBertConfig, ModernBertModel
 
-from condila.cdlm.replaid.metrics import ARScorer
-from condila.cdlm.replaid.score import modernbert_features
+from open_cdlm.cdlm.replaid.metrics import ARScorer
+from open_cdlm.cdlm.replaid.score import modernbert_features
 
 
 def test_generation_ppl_api_with_local_random_gpt2(tmp_path, local_tokenizer):

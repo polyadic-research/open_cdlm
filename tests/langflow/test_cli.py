@@ -1,16 +1,19 @@
 from pathlib import Path
 
-import lightning as L
-from omegaconf import OmegaConf
+import pytest
 import torch
 
-from condila.cdlm import from_pretrained
-from condila.cdlm.langflow import LangFlowLightningModule
-from condila.cdlm.langflow.cli import build_callbacks, build_loggers
+from open_cdlm.cdlm import from_pretrained
 from tests.test_cdlm_api import tiny_config
 
 
 def test_periodic_and_best_checkpoints_are_saved_after_the_correct_events(tmp_path):
+    L = pytest.importorskip("lightning")
+    OmegaConf = pytest.importorskip("omegaconf").OmegaConf
+    pytest.importorskip("hydra")
+    from open_cdlm.cdlm.langflow import LangFlowLightningModule
+    from open_cdlm.cdlm.langflow.legacy_cli import build_callbacks, build_loggers
+
     config = OmegaConf.create({"training": {
         "checkpoint_dir": str(tmp_path / "checkpoints"), "save_top_k": 2,
         "save_every_steps": 1, "log_dir": str(tmp_path / "logs"), "use_wandb": False,

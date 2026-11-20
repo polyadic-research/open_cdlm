@@ -1,7 +1,7 @@
 import numpy as np
 
-from condila.dlm_metrics import DistinctN, ExactDuplicateRate, NGramDiversity, RepetitionRate
-from condila.dlm_metrics.functional import distinct_n, exact_duplicate_rate, lzma_bits_per_token, ngram_diversity, rep_n
+from open_cdlm.dlm_metrics import DistinctN, ExactDuplicateRate, NGramDiversity, RepetitionRate
+from open_cdlm.dlm_metrics.functional import distinct_n, exact_duplicate_rate, lzma_bits_per_token, ngram_diversity, rep_n
 
 
 def naive_sets(rows, k):

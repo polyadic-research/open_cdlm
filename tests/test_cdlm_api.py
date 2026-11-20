@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pytest
 import torch
 
-from condila.cdlm import (
+from open_cdlm.cdlm import (
     LangFlowConfig,
     RePlaidConfig,
     create_model,
@@ -90,7 +90,7 @@ def test_native_noise_options_and_seed_conflicts():
 
 
 def test_external_model_registration(monkeypatch):
-    from condila.cdlm import registry
+    from open_cdlm.cdlm import registry
 
     monkeypatch.setattr(registry, "_MODELS", registry._MODELS.copy())
 
@@ -116,7 +116,7 @@ def test_external_model_registration(monkeypatch):
 
 
 def test_langflow_likelihood_adapter_uses_namespaced_native_model():
-    from condila.dlm_metrics.likelihood import LangFlowAdapter
+    from open_cdlm.dlm_metrics.likelihood import LangFlowAdapter
 
     model = create_model("langflow", tiny_config("langflow")).eval()
     adapter = LangFlowAdapter(model)
@@ -129,7 +129,7 @@ def test_langflow_likelihood_adapter_uses_namespaced_native_model():
 
 
 def test_subclass_registration_uses_its_own_sampler(monkeypatch):
-    from condila.cdlm import LangFlow, registry
+    from open_cdlm.cdlm import LangFlow, registry
 
     monkeypatch.setattr(registry, "_MODELS", registry._MODELS.copy())
 

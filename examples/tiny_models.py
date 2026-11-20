@@ -1,8 +1,8 @@
 """Run both native CDLMs and token metrics without downloading any weights."""
 import torch
 
-from condila.cdlm import create_model, generate
-from condila.dlm_metrics import EntropyDecomposition, MetricCollection, RepetitionRate
+from open_cdlm.cdlm import create_model, generate
+from open_cdlm.dlm_metrics import EntropyDecomposition, MetricCollection, RepetitionRate
 
 
 def main():

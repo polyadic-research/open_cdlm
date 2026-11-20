@@ -1,11 +1,9 @@
 import pytest
 import torch
 import torch.nn.functional as F
-import lightning as L
 
-from condila.cdlm.langflow import LangFlow, LangFlowConfig
-from condila.cdlm.langflow.model import GumbelProposal
-from condila.cdlm.langflow.train import LangFlowLightningModule
+from open_cdlm.cdlm.langflow import LangFlow, LangFlowConfig
+from open_cdlm.cdlm.langflow.model import GumbelProposal
 
 
 def small_config(**kwargs):
@@ -35,6 +33,9 @@ def test_invalid_gumbel_scale_is_rejected(scale):
 
 
 def test_legacy_proposal_keys_load_through_model_and_training(tmp_path):
+    pytest.importorskip("lightning")
+    from open_cdlm.cdlm.langflow.train import LangFlowLightningModule
+
     model = LangFlow(small_config())
     state = dict(model.state_dict())
     state.pop("proposal.raw_scale")
@@ -53,28 +54,34 @@ def test_legacy_proposal_keys_load_through_model_and_training(tmp_path):
 
 
 def test_scheduler_ignores_padding_and_empty_sequences(monkeypatch):
-    module = LangFlowLightningModule(config=small_config(), use_ema=False,
-                                    self_conditioning=False)
-    logged = {}
-    monkeypatch.setattr(module, "log", lambda name, value, **kw: logged.update({name: value}))
-    gamma = torch.tensor([3.0, 4.0, 5.0])
-    monkeypatch.setattr(module, "_sample_gamma", lambda size, device: gamma.to(device))
+    from open_cdlm.cdlm.langflow.objective import training_objective
+
+    model = LangFlow(small_config(self_conditioning=False))
+    gamma = torch.tensor([3.0, 4.0, 5.0], requires_grad=True)
     logits = torch.randn(3, 4, 17, requires_grad=True)
-    monkeypatch.setattr(module.model, "forward", lambda **kw: logits)
+    monkeypatch.setattr(model, "forward", lambda **kw: logits)
     ids = torch.zeros(3, 4, dtype=torch.long)
     mask = torch.tensor([[1, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]])
     ce = F.cross_entropy(logits.flatten(0, 1), ids.flatten(), reduction="none").view(3, 4)
     targets = torch.stack((ce[0, :2].mean(), ce[1, 0]))
-    fitted = module.model.proposal.entropy * module.model.proposal._get_distribution().cdf(gamma)
+    fitted = model.proposal.entropy * model.proposal._get_distribution().cdf(gamma.detach())
     expected = F.mse_loss(fitted[:2], targets.detach())
-    loss = module.training_step({"input_ids": ids, "attention_mask": mask}, 0)
-    torch.testing.assert_close(logged["train/scheduler_loss"], expected)
-    loss.backward()
-    assert module.model.proposal.raw_scale.grad is not None
-    assert torch.isfinite(module.model.proposal.raw_scale.grad)
+    loss, metrics = training_objective(model, ids, gamma, attention_mask=mask)
+    torch.testing.assert_close(metrics["scheduler_loss"], expected)
+    scale = model.proposal.raw_scale
+    scale_grad, logits_grad, gamma_grad = torch.autograd.grad(
+        loss, (scale, logits, gamma), allow_unused=True,
+    )
+    torch.testing.assert_close(scale_grad, torch.autograd.grad(expected, scale)[0])
+    expected_ce = (ce * mask).sum() / mask.sum()
+    torch.testing.assert_close(logits_grad, torch.autograd.grad(expected_ce, logits)[0])
+    assert gamma_grad is None
 
 
 def test_ema_updates_once_per_optimizer_step_with_gradient_accumulation(tmp_path):
+    L = pytest.importorskip("lightning")
+    from open_cdlm.cdlm.langflow.train import LangFlowLightningModule
+
     module = LangFlowLightningModule(config=small_config(), learning_rate=1e-3,
                                     warmup_steps=0, total_steps=2,
                                     bias_warmup_steps=0, self_conditioning=False,

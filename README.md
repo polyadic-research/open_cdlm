@@ -1,7 +1,7 @@
 <div align="center">
 
 <h1>
-  <img src="docs/assets/condila-logo.svg" alt="" width="72" height="44" align="absmiddle">
+  <img src="docs/assets/open_cdlm-logo.svg" alt="" width="72" height="44" align="absmiddle">
   Open CDLM
 </h1>
 
@@ -45,12 +45,12 @@ objectives and sampling controls.
 
 | Build and train | Sample and compare | Evaluate and diagnose |
 | :--- | :--- | :--- |
-| LangFlow and RePlaid configurations, training workflows, and checkpoint loading | One sampling interface with model-specific solvers and independent sample seeds | MMD, MAUVE, GenPPL, coverage, entropy, repetition, and likelihood estimation |
+| LangFlow and RePlaid configurations, training workflows, and checkpoint loading | One sampling interface with model-specific solvers and independent sample seeds | KTD, MTD, MAUVE, Gen PPL, coverage, entropy, repetition, and likelihood estimation |
 
 ```mermaid
 flowchart LR
     A["Configure or load<br/>LangFlow / RePlaid"] --> B["Generate samples<br/>Euler-EDM / DDPM / DDIM / Heun"]
-    B --> C["Compare outputs<br/>MMD / MAUVE / coverage"]
+    B --> C["Compare outputs<br/>KTD / MTD / coverage"]
     style A fill:#eaf9fc,stroke:#22BCD0,color:#16343b
     style B fill:#edf2ff,stroke:#4879ED,color:#23375b
     style C fill:#f3eeff,stroke:#7B4FE0,color:#3c285d
@@ -58,8 +58,8 @@ flowchart LR
 
 ## Quickstart
 
-Requires **Python 3.10+** and **PyTorch 2.3+**. For GPU support, install a PyTorch
-build compatible with your CUDA version first.
+The Python package is `open_cdlm`. It requires **Python 3.10+** and **PyTorch 2.3+**.
+For GPU support, install a PyTorch build compatible with your CUDA version first.
 
 ```bash
 git clone https://github.com/hojawn/Open_CDLM.git
@@ -84,8 +84,8 @@ replaid (4, 8) {'entropy': ..., 'repeat': ...}
 Or build a small model directly:
 
 ```python
-from condila.cdlm import create_model, generate
-from condila.dlm_metrics import EntropyDecomposition
+from open_cdlm.cdlm import create_model, generate
+from open_cdlm.dlm_metrics import EntropyDecomposition
 
 model = create_model(
     'langflow', vocab_size=32, hidden_size=16, cond_dim=8,
@@ -117,7 +117,7 @@ python -m pip install -e '.[all]'
 
 | Extra | Features |
 | :--- | :--- |
-| `train` | Lightning / Hydra training and data loading |
+| `train` | Data preparation for native PyTorch training |
 | `data` | Dataset processing and Parquet support |
 | `mauve` | MAUVE evaluation |
 | `topics` | Topic coverage statistics |
@@ -131,11 +131,11 @@ python -m pip install -e '.[all]'
 
 | Model | Namespace | Supported samplers |
 | :--- | :--- | :--- |
-| **LangFlow** | `condila.cdlm.langflow` | Euler-EDM |
-| **RePlaid** | `condila.cdlm.replaid` | DDPM, DDIM, Heun |
+| **LangFlow** | `open_cdlm.cdlm.langflow` | Euler-EDM |
+| **RePlaid** | `open_cdlm.cdlm.replaid` | DDPM, DDIM, Heun |
 
 ```python
-from condila.cdlm import from_pretrained, generate, list_models
+from open_cdlm.cdlm import from_pretrained, generate, list_models
 
 print(list_models())  # ('langflow', 'replaid')
 
@@ -167,23 +167,22 @@ The unified `steps` parameter counts solver intervals. It maps to
 All samplers make one additional decoder call at the end.
 
 ```python
-from condila.cdlm.langflow import LangFlow, LangFlowConfig
-from condila.cdlm.replaid import RePlaid, RePlaidConfig, load_checkpoint
+from open_cdlm.cdlm.langflow import LangFlow, LangFlowConfig
+from open_cdlm.cdlm.replaid import RePlaid, RePlaidConfig, load_checkpoint
 
 langflow = LangFlow(LangFlowConfig())
 replaid = RePlaid(RePlaidConfig())
 model, tokenizer, experiment = load_checkpoint('/path/to/checkpoint', device='cpu')
 ```
 
-LangFlow supports Hugging Face model IDs, local model directories, safetensors
-files, sharded weights, and Lightning checkpoints. Standalone weight files require
-a sibling `config.json` or an explicit `config=` argument. Lightning checkpoints
-can use their embedded architecture configuration.
+Both models load checkpoints from the shared training loop. The directory contains
+`experiment_config.json`, `model.safetensors`, `ema.safetensors`, and `tokenizer/`.
+`from_pretrained` loads EMA weights by default. Pass `weights='raw'` for the
+optimizer's current weights. RePlaid's `load_checkpoint` also returns the tokenizer
+and experiment configuration.
 
-A RePlaid checkpoint directory contains `experiment_config.json`,
-`model.safetensors`, `ema.safetensors`, and `tokenizer/`. Use `load_checkpoint`
-to retrieve the model, tokenizer, and experiment configuration together. Set
-`weights='raw'` to load non-EMA weights.
+LangFlow also loads Hugging Face models, sharded weights, standalone safetensors
+with a model configuration, and legacy Lightning checkpoints.
 
 </details>
 
@@ -193,7 +192,7 @@ Compare saved outputs from multiple generators against a shared reference.
 The metric interfaces also accept samples from text generators outside Open CDLM.
 
 ```python
-from condila.dlm_metrics import evaluate
+from open_cdlm.dlm_metrics import evaluate
 
 report = evaluate(
     {
@@ -212,26 +211,38 @@ reference rows. References are split between the scoring reference and a
 real-versus-real control. The tokenizer must match the generated token IDs.
 `evaluate` uses GPT-2-large by default and downloads its weights if they are not cached.
 
+**Kernel Text Discrepancy (KTD)** compares corpora using projected token quantiles
+and the final token state. Supply a separate corpus of real texts with
+`calibration=` in Python or `--calibration` on the command line.
+KTD reuses the fitted scales and bandwidth across generators and reports the
+unbiased squared statistic.
+
+```bash
+open_cdlm-metrics eval generated.jsonl \
+  --reference reference.jsonl --calibration calibration.jsonl \
+  --metrics ktd,mtd --out quality.json
+```
+
 Metrics follow an `update` / `compute` / `reset` lifecycle and can be combined with
 `MetricCollection`. See the [metrics reference](docs/metrics.md) for the full API.
 
 <details>
-<summary><strong>MMD with precomputed features</strong></summary>
+<summary><strong>MTD with precomputed features</strong></summary>
 
 ```python
 import numpy as np
-from condila.dlm_metrics import MMD
+from open_cdlm.dlm_metrics import MTD
 
 rng = np.random.default_rng(42)
-metric = MMD(bandwidth=1.0)
+metric = MTD(bandwidth=1.0)
 metric.update_features(rng.normal(size=(64, 16)), real=True)
 metric.update_features(rng.normal(size=(64, 16)) + 0.3)
 print(metric.compute())
 ```
 
-MMD returns U-MMD squared and its signed square root for display. The `null_sd`
-field reports the standard deviation of the permutation null distribution;
-it is not a confidence interval for model comparisons.
+MTD reports the signed square root in `mtd` and the squared U-statistic in `mtd2`.
+With permutation repeats enabled, `null_sd` reports the standard deviation of the
+permutation null distribution.
 
 </details>
 
@@ -241,8 +252,8 @@ it is not a confidence interval for model comparisons.
 Use the likelihood module with LangFlow:
 
 ```python
-from condila.cdlm import from_pretrained
-from condila.dlm_metrics.likelihood import LangFlowAdapter, NLLBound
+from open_cdlm.cdlm import from_pretrained
+from open_cdlm.dlm_metrics.likelihood import LangFlowAdapter, NLLBound
 
 model = from_pretrained('langflow', '/path/to/langflow-checkpoint', device='cuda')
 bound = NLLBound(LangFlowAdapter(model), estimator='ode', n_steps=128)
@@ -252,57 +263,71 @@ print(bound.compute())
 ```
 
 For RePlaid held-out NELBO evaluation, use
-`condila.cdlm.replaid.objective.validation_terms` or `condila-replaid-evaluate`.
+`open_cdlm.cdlm.replaid.objective.validation_terms` or `open_cdlm-replaid-evaluate`.
 
 </details>
 
 ## Training
 
-Install training dependencies with `python -m pip install -e '.[train,data]'`.
+LangFlow and RePlaid use the same native PyTorch loop for data loading, gradient
+accumulation, distributed training, EMA, and checkpoints. Prepare the data once
+and pass the same directory to both runs.
 
 ```bash
-# LangFlow: inspect a configuration, then launch training
-condila-langflow-train --cfg job
-condila-langflow-train model=langflow-owt data=openwebtext
+python -m pip install -e '.[train]'
 
-# RePlaid: validate the configuration, then train on prepared data
-condila-replaid-train --dry-run --device cpu
-condila-replaid-train --data-dir /path/to/owt_gpt2 --output-dir outputs/replaid
+open_cdlm-replaid-prepare --input '/path/to/openwebtext/*.parquet' \
+  --output data/owt_gpt2 --sequence-length 1024
+
+open_cdlm train --model langflow --data-dir data/owt_gpt2 --output-dir outputs/langflow
+open_cdlm train --model replaid --data-dir data/owt_gpt2 --output-dir outputs/replaid
 ```
 
-LangFlow uses Hydra configuration with parameter overrides, `resume` for restoring
-training state, and `init_from` for initializing weights. It retains the best
-validation checkpoints, periodically saves the latest training state, and exports
-Lightning and Hugging Face checkpoints at the end of training.
+The [LangFlow preset](src/open_cdlm/cdlm/langflow/configs/owt_pytorch.yaml) and
+[RePlaid preset](src/open_cdlm/cdlm/replaid/configs/owt_sc.yaml) use 1,024-token
+blocks and a global batch of 512 sequences. Copy a preset and pass `--config`
+to change the training recipe. `--dry-run --device cpu` checks the model and
+batch configuration without opening the dataset.
 
-For distributed RePlaid training, use `torchrun -m condila.cdlm.replaid.train ...`.
-Experiment logs are written to local CSV files by default. W&B tracking is available
-through the `tracking` extra and training configuration.
+```bash
+torchrun --standalone --nproc-per-node=4 -m open_cdlm.cdlm.training \
+  --model langflow --data-dir data/owt_gpt2 --output-dir outputs/langflow
+```
+
+Use the same launch settings and `--resume latest` to continue from the newest
+checkpoint. For a partial run, set `--stop-after-steps` to keep the planned learning
+rate schedule. Use `--init-from` to initialize a new run from pretrained weights.
+Training and validation metrics are written to JSONL in the run directory.
+
+LangFlow trains with denoising cross entropy and a Gumbel schedule fitting loss,
+and reports held-out denoising cross entropy. RePlaid trains with its native NELBO
+and reports held-out NELBO and the associated perplexity upper bound.
 
 <details>
 <summary><strong>More command-line tools</strong></summary>
 
 ```bash
 # Discover models and evaluate sample files
-condila models
-condila metrics --help
-condila-metrics eval samples.pt --reference owt_ref.pt --preset owt
+open_cdlm models
+open_cdlm metrics --help
+open_cdlm-metrics eval samples.pt --reference owt_ref.pt --preset owt
 
 # Generate LangFlow samples
-condila-langflow-sample --checkpoint /path/to/langflow --output samples.pt \
+open_cdlm-langflow-sample --checkpoint /path/to/langflow --output samples.pt \
   --num-samples 512 --batch-size 8 --steps 128
 
 # Prepare data, evaluate likelihood, and generate RePlaid samples
-condila-replaid-prepare --help
-condila-replaid-evaluate --checkpoint /path/to/checkpoint --output nelbo.json
-condila-replaid-sample --checkpoint /path/to/checkpoint --output samples.jsonl
-condila-replaid-score --samples samples.jsonl --output quality.json
-condila-replaid-reference --help
+open_cdlm-replaid-prepare --help
+open_cdlm-replaid-evaluate --checkpoint /path/to/checkpoint --output nelbo.json
+open_cdlm-replaid-sample --checkpoint /path/to/checkpoint --output samples.jsonl
+open_cdlm-replaid-score --samples samples.jsonl --output quality.json
+open_cdlm-replaid-reference --help
 ```
 
-Model commands also support `python -m condila.cdlm.<model>.<module>`. The LangFlow
-training entry point is `condila.cdlm.langflow.cli`, and its sampling entry point
-is `condila.cdlm.langflow.inference`.
+The `open_cdlm-langflow-train` and `open_cdlm-replaid-train` commands select their
+respective models in the shared trainer. Existing Lightning and Hydra runs are
+available via `python -m open_cdlm.cdlm.langflow.legacy_cli` with the
+`legacy-langflow` extra.
 
 </details>
 
@@ -320,15 +345,13 @@ is `condila.cdlm.langflow.inference`.
 
 | Namespace | Contents |
 | :--- | :--- |
-| `condila.cdlm` | Model discovery, registration, construction, loading, and sampling |
-| `condila.cdlm.langflow` | LangFlow configuration, model, LightningModule, and DataModule |
-| `condila.cdlm.replaid` | RePlaid configuration, model, objectives, training, and evaluation |
-| `condila.dlm_metrics` | Metric classes, collections, and corpus evaluation |
-| `condila.dlm_metrics.functional` | Functional metric interfaces |
-| `condila.dlm_metrics.likelihood` | Likelihood estimators and model adapters |
-
-`condia.dlm_metrics` is a compatibility namespace sharing the same modules and
-classes as `condila.dlm_metrics`.
+| `open_cdlm.cdlm` | Model discovery, registration, construction, loading, and sampling |
+| `open_cdlm.cdlm.training` | Shared training loop and experiment CLI |
+| `open_cdlm.cdlm.langflow` | LangFlow configuration, model, and checkpoint loading |
+| `open_cdlm.cdlm.replaid` | RePlaid configuration, model, objectives, training, and evaluation |
+| `open_cdlm.dlm_metrics` | Metric classes, collections, and corpus evaluation |
+| `open_cdlm.dlm_metrics.functional` | Functional metric interfaces |
+| `open_cdlm.dlm_metrics.likelihood` | Likelihood estimators and model adapters |
 
 </details>
 

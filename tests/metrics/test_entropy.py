@@ -1,8 +1,8 @@
 import numpy as np
 import scipy.sparse as sp
 
-from condila.dlm_metrics import EntropyDecomposition, JSDRows, PooledEntropy, SampleEntropy
-from condila.dlm_metrics.functional import entropy_decomposition, pooled_entropy, row_entropy, sample_entropy
+from open_cdlm.dlm_metrics import EntropyDecomposition, JSDRows, PooledEntropy, SampleEntropy
+from open_cdlm.dlm_metrics.functional import entropy_decomposition, pooled_entropy, row_entropy, sample_entropy
 
 
 def reference_entropies(rows):

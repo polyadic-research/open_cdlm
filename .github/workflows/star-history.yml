@@ -30,13 +30,13 @@ jobs:
 
       - name: Install chart renderer
         run: |
-          python3 -m venv "$RUNNER_TEMP/condila-star-history"
-          "$RUNNER_TEMP/condila-star-history/bin/python" -m pip install 'matplotlib>=3.8,<4'
+          python3 -m venv "$RUNNER_TEMP/open_cdlm-star-history"
+          "$RUNNER_TEMP/open_cdlm-star-history/bin/python" -m pip install 'matplotlib>=3.8,<4'
 
       - name: Record and render GitHub stars
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: '"$RUNNER_TEMP/condila-star-history/bin/python" scripts/update_star_history.py --repo "$GITHUB_REPOSITORY"'
+        run: '"$RUNNER_TEMP/open_cdlm-star-history/bin/python" scripts/update_star_history.py --repo "$GITHUB_REPOSITORY"'
 
       - name: Commit updated charts
         run: |

@@ -4,20 +4,20 @@ from pathlib import Path
 import pytest
 import torch
 
-from condila.cdlm.replaid.config import load_config
-from condila.cdlm.replaid.layers import FP32LayerNorm
-from condila.cdlm.replaid.model import (
+from open_cdlm.cdlm.replaid.config import load_config
+from open_cdlm.cdlm.replaid.layers import FP32LayerNorm
+from open_cdlm.cdlm.replaid.model import (
     RePlaid,
     build_schedule_with_derivative,
     register_variance_minimizing_hooks,
 )
-from condila.cdlm.replaid.objective import (
+from open_cdlm.cdlm.replaid.objective import (
     make_batch_plan,
     nelbo_objective,
     update_loss_moments,
     validation_terms,
 )
-from condila.cdlm.replaid.optim import build_optimizer, build_scheduler
+from open_cdlm.cdlm.replaid.optim import build_optimizer, build_scheduler
 
 
 def activate(model):
@@ -30,7 +30,7 @@ def activate(model):
 
 def test_paper_recipe_and_architecture():
     root = Path(__file__).resolve().parents[2]
-    config = load_config(root / "src/condila/cdlm/replaid/configs/owt_sc.yaml")
+    config = load_config(root / "src/open_cdlm/cdlm/replaid/configs/owt_sc.yaml")
     assert config.model.vocab_size == 50257
     assert config.model.cond_dim == 128
     assert config.model.replaid_embedding_dim == 16

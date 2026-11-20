@@ -4,8 +4,8 @@ from pathlib import Path
 
 import torch
 
-from condila.cdlm import from_pretrained, generate
-from condila.dlm_metrics import evaluate
+from open_cdlm.cdlm import from_pretrained, generate
+from open_cdlm.dlm_metrics import evaluate
 
 
 def main():

@@ -1,7 +1,7 @@
 """Likelihood estimators on a toy model with an exact denoiser and a known NLL."""
 import torch
 
-from condila.dlm_metrics.likelihood import GaussianMixtureTokens, NLLBound, bdmc_sandwich, ode_nll_bound, vdm_nelbo
+from open_cdlm.dlm_metrics.likelihood import GaussianMixtureTokens, NLLBound, bdmc_sandwich, ode_nll_bound, vdm_nelbo
 
 
 def toy():

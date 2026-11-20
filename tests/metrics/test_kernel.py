@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from condila.dlm_metrics.functional import (feature_vendi, frechet_distance, kid, l2_normalize, median_bandwidth, mmd, mmd2_rbf,
+from open_cdlm.dlm_metrics.functional import (feature_vendi, frechet_distance, kid, l2_normalize, median_bandwidth, mmd, mmd2_rbf,
                                     mmd_permutation_null, multiscale_mmd, prdc)
 
 
@@ -72,7 +72,7 @@ def test_prdc_fd_vendi_kid(rng):
 def test_topic_occupancy_detects_missing_clusters(rng):
     import pytest
     pytest.importorskip("sklearn")
-    from condila.dlm_metrics.functional import topic_occupancy
+    from open_cdlm.dlm_metrics.functional import topic_occupancy
     centers = rng.normal(size=(4, 6)) * 10
     X = np.vstack([c + rng.normal(size=(100, 6)) for c in centers])
     Y = np.vstack([c + rng.normal(size=(200, 6)) for c in centers[:2]])       # two of the four topics only

@@ -8,8 +8,7 @@ import pytest
 import torch
 from safetensors.torch import save_file
 
-from condila.cdlm import create_model, from_pretrained, generate
-from condila.cdlm.langflow import LangFlowLightningModule
+from open_cdlm.cdlm import create_model, from_pretrained, generate
 from tests.test_cdlm_api import tiny_config
 
 
@@ -46,11 +45,14 @@ def test_legacy_safetensors_and_missing_architecture(tmp_path):
 
 
 @pytest.mark.parametrize("ema_format", ["separate", "prefixed"])
-def test_lightning_checkpoint_selects_raw_or_ema_and_records_architecture(tmp_path, ema_format):
+@pytest.mark.parametrize("config_key", ["open_cdlm_model_config", "condila_model_config"])
+def test_lightning_checkpoint_selects_raw_or_ema_and_records_architecture(
+    tmp_path, ema_format, config_key
+):
     raw = create_model("langflow", tiny_config("langflow"))
     ema = create_model("langflow", tiny_config("langflow"))
     state = {"model." + key: value for key, value in raw.state_dict().items()}
-    payload = {"state_dict": state, "condila_model_config": raw.config.to_dict()}
+    payload = {"state_dict": state, config_key: raw.config.to_dict()}
     if ema_format == "separate":
         payload["ema_state_dict"] = ema.state_dict()
     else:
@@ -64,11 +66,14 @@ def test_lightning_checkpoint_selects_raw_or_ema_and_records_architecture(tmp_pa
 
 
 def test_lightning_saves_its_actual_explicit_config():
+    pytest.importorskip("lightning")
+    from open_cdlm.cdlm.langflow import LangFlowLightningModule
+
     module = LangFlowLightningModule(config=tiny_config("langflow"))
     checkpoint = {}
     module.on_save_checkpoint(checkpoint)
-    assert checkpoint["condila_model_config"]["hidden_size"] == 16
-    assert checkpoint["condila_model_config"]["vocab_size"] == 18
+    assert checkpoint["open_cdlm_model_config"]["hidden_size"] == 16
+    assert checkpoint["open_cdlm_model_config"]["vocab_size"] == 18
 
 
 def test_missing_local_checkpoint_is_not_interpreted_as_hub_id(tmp_path):
@@ -77,7 +82,7 @@ def test_missing_local_checkpoint_is_not_interpreted_as_hub_id(tmp_path):
 
 
 def test_langflow_token_cli_integrates_with_metric_sample_reader(tmp_path):
-    from condila.dlm_metrics import load_samples
+    from open_cdlm.dlm_metrics import load_samples
 
     model = create_model("langflow", tiny_config("langflow"))
     checkpoint = tmp_path / "checkpoint"
@@ -86,7 +91,7 @@ def test_langflow_token_cli_integrates_with_metric_sample_reader(tmp_path):
     for batch_size in (1, 2):
         output = tmp_path / f"samples-{batch_size}.pt"
         result = subprocess.run(
-            [sys.executable, "-m", "condila.cdlm.langflow.inference", "--checkpoint", str(checkpoint),
+            [sys.executable, "-m", "open_cdlm.cdlm.langflow.inference", "--checkpoint", str(checkpoint),
              "--output", str(output), "--num-samples", "3", "--batch-size", str(batch_size),
              "--steps", "2", "--seed", "8", "--device", "cpu"],
             check=False, cwd=tmp_path, text=True, capture_output=True, timeout=60,

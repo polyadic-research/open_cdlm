@@ -1,13 +1,13 @@
 """torchmetrics-style usage: stream batches into metrics, share one feature extractor, keep reference features.
 
-    python examples/modular_metrics.py --reference owt_ref.pt --samples samples.pt
+    python examples/metrics/modular_metrics.py --reference owt_ref.pt --samples samples.pt
 """
 import argparse
 
 import torch
 
-from condila.dlm_metrics import (MAUVE, MMD, PRDC, EntropyDecomposition, GenerativePerplexity, MetricCollection,
-                         TextFeatureExtractor, load_samples)
+from open_cdlm.dlm_metrics import (MAUVE, MTD, PRDC, EntropyDecomposition, GenerativePerplexity, MetricCollection,
+                                  TextFeatureExtractor, load_samples)
 
 p = argparse.ArgumentParser()
 p.add_argument("--reference", required=True)
@@ -25,8 +25,8 @@ fx_last = TextFeatureExtractor(fx.judge, pooling="last", batch_size=8)
 metrics = MetricCollection({
     "gen_ppl": GenerativePerplexity(judge=fx.judge, split_half=8),
     "entropy": EntropyDecomposition(split_half=8),
-    "mmd": MMD(extractor=fx, null_repeats=12, reset_real_features=False),
-    "mmd_quarter": MMD(extractor=fx, bandwidth_multiplier=0.25, reset_real_features=False),
+    "mtd": MTD(extractor=fx, null_repeats=12, reset_real_features=False),
+    "mtd_quarter": MTD(extractor=fx, bandwidth_multiplier=0.25, reset_real_features=False),
     "prdc": PRDC(extractor=fx, k=5, reset_real_features=False),
     "mauve": MAUVE(extractor=fx_last, num_buckets="auto", reset_real_features=False),
 }, tokenizer="gpt2")
