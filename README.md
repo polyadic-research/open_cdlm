@@ -15,7 +15,7 @@
 
 <p>
   <!-- arXiv: replace href="#paper" with the paper URL when available. -->
-  <a href="#paper"><strong>arXiv (coming soon)</strong></a>
+  <a href="https://github.com/polyadic-research/open_cdlm/blob/main/docs/assets/opencdlm_paper_1120.pdf"><strong>paper (coming soon)</strong></a>
   &nbsp;&middot;&nbsp;
   <a href="https://home.polyadiclabs.com/"><strong>Team Page</strong></a>
 </p>
