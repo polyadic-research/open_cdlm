@@ -1,12 +1,9 @@
 <div align="center">
 
-<h1>
-  <img src="docs/assets/open_cdlm-logo.svg" alt="" width="72" height="44" align="absmiddle">
-  Open CDLM
-</h1>
+<h1>Open CDLM</h1>
 
-<p><strong>A Unified Library and Benchmark for Continuous Diffusion Language Models</strong></p>
-<p>Hao Jiang &middot; Yujian Chen &middot; Gen Li &middot; Weijian Luo &middot; Tianyang Hu</p>
+<p><strong>A Benchmark and Library for Continuous Diffusion Language Models</strong></p>
+<p>Hao Jiang &middot; Ruixi Chen &middot; Jiayi Han &middot; Yulei Sun &middot; Yujian Chen &middot; Gen Li &middot; Brian K Chen &middot; Guang Cheng &middot; Weijian Luo &middot; Tianyang Hu</p>
 <p>CDLM Baselines &middot; Unified sampling &middot; Distributional evaluation</p>
 
 <p>
@@ -19,8 +16,6 @@
 <p>
   <!-- arXiv: replace href="#paper" with the paper URL when available. -->
   <a href="#paper"><strong>arXiv (coming soon)</strong></a>
-  &nbsp;&middot;&nbsp;
-  <a href="https://hojawn.github.io/CDLM-Bench/#findings"><strong>Project Page</strong></a>
   &nbsp;&middot;&nbsp;
   <a href="https://pkulwj1994.github.io/polyadic-research/"><strong>Team Page</strong></a>
 </p>
@@ -357,10 +352,12 @@ available via `python -m open_cdlm.cdlm.langflow.legacy_cli` with the
 
 ## Paper
 
-**Open CDLM: A Unified Library and Benchmark for Continuous Diffusion Language Models**
+**Open CDLM: A Benchmark and Library for Continuous Diffusion Language Models**
 
-Hao Jiang<sup>1,2</sup>, Yujian Chen<sup>1,3</sup>, Gen Li<sup>5</sup>,
-Weijian Luo<sup>4</sup>, Tianyang Hu<sup>1,2</sup>.
+Hao Jiang<sup>1,2,&#42;</sup>, Ruixi Chen<sup>1,2,&#42;</sup>,
+Jiayi Han<sup>1,2</sup>, Yulei Sun<sup>1,2</sup>, Yujian Chen<sup>1,3</sup>,
+Gen Li<sup>4</sup>, Brian K Chen<sup>5</sup>, Guang Cheng<sup>6</sup>,
+Weijian Luo<sup>7</sup>, and Tianyang Hu<sup>1,2</sup>.
 
 Manuscript, 2026. The arXiv link will be added when available.
 
@@ -370,11 +367,15 @@ Manuscript, 2026. The arXiv link will be added when available.
 1. Polyadic Research Group
 2. SAGA Lab, The Chinese University of Hong Kong, Shenzhen
 3. School of Computer Science, Peking University
-4. Dots Studio, Xiaohongshu
-5. The Chinese University of Hong Kong
+4. The Chinese University of Hong Kong
+5. National University of Singapore
+6. University of California, Los Angeles
+7. Dots Studio, Xiaohongshu
 
-Corresponding authors: [Weijian Luo](mailto:pkulwj1994@icloud.com) and
-[Tianyang Hu](mailto:hutianyang@cuhk.edu.cn).
+<sup>&#42;</sup> These authors contributed equally.
+
+[Weijian Luo](mailto:pkulwj1994@icloud.com) and
+[Tianyang Hu](mailto:hutianyang@cuhk.edu.cn) are the corresponding authors.
 
 </details>
 
@@ -383,11 +384,11 @@ Corresponding authors: [Weijian Luo](mailto:pkulwj1994@icloud.com) and
 
 ```bibtex
 @misc{jiang2026opencdlm,
-  title  = {Open CDLM: A Unified Library and Benchmark for Continuous Diffusion Language Models},
-  author = {Jiang, Hao and Chen, Yujian and Li, Gen and Luo, Weijian and Hu, Tianyang},
+  title  = {{Open CDLM}: A Benchmark and Library for Continuous Diffusion Language Models},
+  author = {Jiang, Hao and Chen, Ruixi and Han, Jiayi and Sun, Yulei and Chen, Yujian
+            and Li, Gen and Chen, Brian K and Cheng, Guang and Luo, Weijian and Hu, Tianyang},
   year   = {2026},
-  note   = {Manuscript},
-  url    = {https://hojawn.github.io/CDLM-Bench/}
+  note   = {Manuscript}
 }
 ```
 
