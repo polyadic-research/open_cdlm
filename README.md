@@ -17,7 +17,7 @@
   <!-- arXiv: replace href="#paper" with the paper URL when available. -->
   <a href="#paper"><strong>arXiv (coming soon)</strong></a>
   &nbsp;&middot;&nbsp;
-  <a href="https://pkulwj1994.github.io/polyadic-research/"><strong>Team Page</strong></a>
+  <a href="https://home.polyadiclabs.com/"><strong>Team Page</strong></a>
 </p>
 
 <p>
@@ -397,7 +397,7 @@ Manuscript, 2026. The arXiv link will be added when available.
 ## Research Team
 
 <p>
-  <a href="https://pkulwj1994.github.io/polyadic-research/">
+  <a href="https://home.polyadiclabs.com/">
     <img src="docs/assets/polyadic-logo.svg" alt="Polyadic Research Group logo" width="36" height="36" align="absmiddle">
     <strong>Polyadic Research Group</strong>
   </a>
