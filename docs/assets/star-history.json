@@ -1,5 +1,5 @@
 {
-  "repository": "hojawn/Open_CDLM",
+  "repository": "polyadic-research/open_cdlm",
   "repository_id": 1454437155,
   "observations": [
     {
@@ -37,6 +37,10 @@
     {
       "date": "2026-11-20",
       "stars": 6
+    },
+    {
+      "date": "2026-11-21",
+      "stars": 8
     }
   ]
 }
